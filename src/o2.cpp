@@ -195,7 +195,8 @@ void O2::link() {
     if (grantFlow_ == GrantFlowAuthorizationCode || grantFlow_ == GrantFlowImplicit) {
 
 #if QT_VERSION >= 0x050000
-        QString uniqueState = QUuid::createUuid().toString().remove(QRegularExpression("([^a-zA-Z0-9]|[-])"));
+        const thread_local QRegularExpression rx("([^a-zA-Z0-9]|[-])");
+        QString uniqueState = QUuid::createUuid().toString().remove(rx);
 #else
         QString uniqueState = QUuid::createUuid().toString().remove(QRegExp("([^a-zA-Z0-9]|[-])"));
 #endif
@@ -618,7 +619,7 @@ void O2::onDeviceAuthReplyFinished()
         log( QStringLiteral("O2::onDeviceAuthReplyFinished: Tokens returned:\n") );
         foreach (QString key, params.keys()) {
             // SENSITIVE DATA in RelWithDebInfo or Debug builds, so it is truncated first
-            log( QStringLiteral("%1: %2...").arg( key ).arg( params.value( key ).toString().left( 3 ) ) );
+            log( QStringLiteral("%1: %2...").arg( key, params.value( key ).toString().left( 3 ) ) );
         }
 
         // Check for mandatory parameters
