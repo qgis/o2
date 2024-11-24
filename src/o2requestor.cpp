@@ -20,8 +20,7 @@ O2Requestor::O2Requestor(QNetworkAccessManager *manager, O2 *authenticator, QObj
     connect(authenticator, SIGNAL(refreshFinished(QNetworkReply::NetworkError)), this, SLOT(onRefreshFinished(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 }
 
-O2Requestor::~O2Requestor() {
-}
+O2Requestor::~O2Requestor() = default;
 
 void O2Requestor::setAddAccessTokenInQuery(bool value) {
     addAccessTokenInQuery_ = value;
