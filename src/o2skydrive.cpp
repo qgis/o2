@@ -92,7 +92,11 @@ void O2Skydrive::redirected(const QUrl &url) {
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-        connect(tokenReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+        connect(tokenReply,
+                &QNetworkReply::errorOccurred,
+                this,
+                &O2Skydrive::onTokenReplyError,
+                Qt::QueuedConnection);
 #endif
     } else {
         // Get access token

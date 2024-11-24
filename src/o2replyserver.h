@@ -41,7 +41,8 @@ public Q_SLOTS:
     void onIncomingConnection();
     void onBytesReady();
     QMap<QString, QString> parseQueryParams(QByteArray *data);
-    void closeServer(QTcpSocket *socket = nullptr, bool hasparameters = false);
+    void closeServer();
+    void closeServer(QTcpSocket *socket, bool hasparameters = false);
 
 protected:
     QByteArray replyContent_;

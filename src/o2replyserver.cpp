@@ -33,10 +33,10 @@ void O2ReplyServer::onIncomingConnection() {
     // like for favicons, etc., before such secondary callbacks are fired
     QTimer *timer = new QTimer(socket);
     timer->setObjectName("timeoutTimer");
-    connect(timer, SIGNAL(timeout()), this, SLOT(closeServer()));
+    connect(timer, &QTimer::timeout, this, qOverload<>(&O2ReplyServer::closeServer));
     timer->setSingleShot(true);
     timer->setInterval(timeout() * 1000);
-    connect(socket, SIGNAL(readyRead()), timer, SLOT(start()));
+    connect(socket, &QTcpSocket::readyRead, timer, qOverload<>(&QTimer::start));
 }
 
 void O2ReplyServer::onBytesReady() {
@@ -110,6 +110,11 @@ QMap<QString, QString> O2ReplyServer::parseQueryParams(QByteArray *data) {
         queryParams.insert(key, value);
     }
     return queryParams;
+}
+
+void O2ReplyServer::closeServer()
+{
+  closeServer( nullptr );
 }
 
 void O2ReplyServer::closeServer(QTcpSocket *socket, bool hasparameters)
