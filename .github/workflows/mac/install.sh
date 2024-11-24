@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+export CCACHE_CPP2=yes
+
+ccache -M 200M
+ccache -s
+
+export CC="ccache clang"
+export CXX="ccache clang++"
+export CFLAGS="-Werror -O2"
+export CXXFLAGS="-Werror -O2"
+
+mkdir -p build
+cd build
+cmake -GNinja ..
+ninja
+
+ccache -s
