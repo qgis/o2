@@ -8,7 +8,7 @@ O2Reply::O2Reply(QNetworkReply *reply, int timeOut, QObject *parent): QTimer(par
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(this, SIGNAL(error(QNetworkReply::NetworkError)), reply, SIGNAL(error(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(this, SIGNAL(error(QNetworkReply::NetworkError)), reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(this, &O2Reply::error, reply, &QNetworkReply::errorOccurred, Qt::QueuedConnection);
 #endif
     connect(this, &QTimer::timeout, this, &O2Reply::onTimeOut, Qt::QueuedConnection);
     start(timeOut);

@@ -59,11 +59,11 @@ void O2Facebook::onVerificationReceived(const QMap<QString, QString> response) {
     QNetworkRequest tokenRequest(url);
     QNetworkReply *tokenReply = manager_->get(tokenRequest);
     timedReplies_.add(tokenReply);
-    connect(tokenReply, SIGNAL(finished()), this, SLOT(onTokenReplyFinished()), Qt::QueuedConnection);
+    connect(tokenReply, &QNetworkReply::finished, this, &O2Facebook::onTokenReplyFinished, Qt::QueuedConnection);
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(tokenReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(tokenReply, &QNetworkReply::errorOccurred, this, &O2Facebook::onTokenReplyError, Qt::QueuedConnection);
 #endif
 }
 

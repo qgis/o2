@@ -44,7 +44,11 @@ int O2Requestor::get(const QNetworkRequest &req, int timeout/* = 60*1000*/) {
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply_, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(reply_, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(reply_,
+            &QNetworkReply::errorOccurred,
+            this,
+            &O2Requestor::onRequestError,
+            Qt::QueuedConnection);
 #endif
     connect(reply_,
             &QNetworkReply::finished,
@@ -65,7 +69,11 @@ int O2Requestor::post(const QNetworkRequest &req, const QByteArray &data, int ti
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply_, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(reply_, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(reply_,
+            &QNetworkReply::errorOccurred,
+            this,
+            &O2Requestor::onRequestError,
+            Qt::QueuedConnection);
 #endif
     connect(reply_,
             &QNetworkReply::finished,
@@ -89,7 +97,11 @@ int O2Requestor::post(const QNetworkRequest & req, QHttpMultiPart* data, int tim
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply_, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(reply_, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(reply_,
+            &QNetworkReply::errorOccurred,
+            this,
+            &O2Requestor::onRequestError,
+            Qt::QueuedConnection);
 #endif
     connect(reply_,
             &QNetworkReply::finished,
@@ -111,7 +123,11 @@ int O2Requestor::put(const QNetworkRequest &req, const QByteArray &data, int tim
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply_, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(reply_, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(reply_,
+            &QNetworkReply::errorOccurred,
+            this,
+            &O2Requestor::onRequestError,
+            Qt::QueuedConnection);
 #endif
     connect(reply_,
             &QNetworkReply::finished,
@@ -135,7 +151,11 @@ int O2Requestor::put(const QNetworkRequest & req, QHttpMultiPart* data, int time
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply_, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(reply_, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(reply_,
+            &QNetworkReply::errorOccurred,
+            this,
+            &O2Requestor::onRequestError,
+            Qt::QueuedConnection);
 #endif
     connect(reply_,
             &QNetworkReply::finished,
@@ -157,7 +177,11 @@ int O2Requestor::deleteResource(const QNetworkRequest & req, int timeout/* = 60*
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply_, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(reply_, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(reply_,
+            &QNetworkReply::errorOccurred,
+            this,
+            &O2Requestor::onRequestError,
+            Qt::QueuedConnection);
 #endif
     connect(reply_,
             &QNetworkReply::finished,
@@ -183,7 +207,11 @@ int O2Requestor::customRequest(const QNetworkRequest &req, const QByteArray &ver
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply_, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(reply_, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(reply_,
+            &QNetworkReply::errorOccurred,
+            this,
+            &O2Requestor::onRequestError,
+            Qt::QueuedConnection);
 #endif
     connect(reply_,
             &QNetworkReply::finished,
@@ -204,7 +232,11 @@ int O2Requestor::head(const QNetworkRequest &req, int timeout/* = 60*1000*/)
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply_, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(reply_, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(reply_,
+            &QNetworkReply::errorOccurred,
+            this,
+            &O2Requestor::onRequestError,
+            Qt::QueuedConnection);
 #endif
     connect(reply_,
             &QNetworkReply::finished,
@@ -390,7 +422,11 @@ void O2Requestor::retry() {
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply_, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(reply_, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRequestError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(reply_,
+            &QNetworkReply::errorOccurred,
+            this,
+            &O2Requestor::onRequestError,
+            Qt::QueuedConnection);
 #endif
     connect(reply_,
             &QNetworkReply::finished,
