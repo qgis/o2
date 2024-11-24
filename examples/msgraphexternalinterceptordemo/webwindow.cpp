@@ -78,8 +78,7 @@ void WebWindow::onCallbackCatchedSafe()
 		QList< QPair<QString, QString> > tokens = query.queryItems();
 		
 		QMultiMap<QString, QString> queryParams;
-		QPair<QString, QString> tokenPair;
-		foreach (tokenPair, tokens) {
+        for (const QPair<QString, QString>& tokenPair: tokens) {
 			QString key = QUrl::fromPercentEncoding(QByteArray().append(tokenPair.first.trimmed().toLatin1()));
 			QString value = QUrl::fromPercentEncoding(QByteArray().append(tokenPair.second.trimmed().toLatin1()));
 			queryParams.insert(key, value);

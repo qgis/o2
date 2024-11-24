@@ -232,7 +232,7 @@ void O2::link() {
         parameters.append(qMakePair(QString(O2_OAUTH2_STATE), uniqueState));
         if ( !apiKey_.isEmpty() )
             parameters.append(qMakePair(QString(O2_OAUTH2_API_KEY), apiKey_));
-        foreach (QString key, extraRequestParams().keys()) {
+        for (const QString &key: extraRequestParams().keys()) {
             parameters.append(qMakePair(key, extraRequestParams().value(key).toString()));
         }
         // Show authentication URL with a web browser
@@ -251,7 +251,7 @@ void O2::link() {
         parameters.append(O0RequestParameter(O2_OAUTH2_SCOPE, scope_.toUtf8()));
         if ( !apiKey_.isEmpty() )
             parameters.append(O0RequestParameter(O2_OAUTH2_API_KEY, apiKey_.toUtf8()));
-        foreach (QString key, extraRequestParams().keys()) {
+        for (const QString &key: extraRequestParams().keys()) {
             parameters.append(O0RequestParameter(key.toUtf8(), extraRequestParams().value(key).toByteArray()));
         }
         QByteArray payload = O0BaseAuth::createQueryParameters(parameters);
@@ -408,7 +408,7 @@ void O2::onTokenReplyFinished() {
 
         // Dump tokens
         log( QStringLiteral("O2::onTokenReplyFinished: Tokens returned:\n") );
-        foreach (QString key, tokens.keys()) {
+        for (const QString &key: tokens.keys()) {
             // SENSITIVE DATA in RelWithDebInfo or Debug builds, so it is truncated first
             log( QStringLiteral("%1: %2...").arg( key, tokens.value( key ).toString().left( 3 ) ) );
         }
@@ -455,7 +455,7 @@ void O2::onTokenReplyError(QNetworkReply::NetworkError error) {
 QByteArray O2::buildRequestBody(const QMap<QString, QString> &parameters) {
     QByteArray body;
     bool first = true;
-    foreach (QString key, parameters.keys()) {
+    for (const QString &key: parameters.keys()) {
         if (first) {
             first = false;
         } else {
@@ -633,7 +633,7 @@ void O2::onDeviceAuthReplyFinished()
 
         // Dump tokens
         log( QStringLiteral("O2::onDeviceAuthReplyFinished: Tokens returned:\n") );
-        foreach (QString key, params.keys()) {
+        for (const QString &key: params.keys()) {
             // SENSITIVE DATA in RelWithDebInfo or Debug builds, so it is truncated first
             log( QStringLiteral("%1: %2...").arg( key, params.value( key ).toString().left( 3 ) ) );
         }

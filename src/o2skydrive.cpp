@@ -106,7 +106,7 @@ void O2Skydrive::redirected(const QUrl &url) {
 
         QStringList parts = url.toString().split("#");
         if (parts.length() > 1) {
-            foreach (QString item, parts[1].split("&")) {
+            for (const QString &item: parts[1].split("&")) {
                 int index = item.indexOf("=");
                 if (index == -1) {
                     continue;

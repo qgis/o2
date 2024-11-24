@@ -116,7 +116,7 @@ void Tweeter::onLinkingSucceeded() {
     if (!extraTokens.isEmpty()) {
         emit extraTokensReady(extraTokens);
         qDebug() << "Extra tokens in response:";
-        foreach (QString key, extraTokens.keys()) {
+        for (const QString &key: extraTokens.keys()) {
             qDebug() << "\t" << key << ":" << (extraTokens.value(key).toString().left(3) + "...");
         }
     }

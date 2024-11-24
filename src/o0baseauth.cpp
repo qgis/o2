@@ -193,7 +193,7 @@ void O0BaseAuth::log(const QString& message, LogLevel level)
 QByteArray O0BaseAuth::createQueryParameters(const QList<O0RequestParameter> &parameters) {
     QByteArray ret;
     bool first = true;
-    foreach (O0RequestParameter h, parameters) {
+    for (const O0RequestParameter& h : parameters) {
         if (first) {
             first = false;
         } else {

@@ -175,7 +175,7 @@ QByteArray O1::buildAuthorizationHeader(const QList<O0RequestParameter> &oauthPa
     QByteArray ret("OAuth ");
     QList<O0RequestParameter> headers(oauthParams);
     std::sort(headers.begin(), headers.end());
-    foreach (O0RequestParameter h, headers) {
+    for (const O0RequestParameter &h: headers) {
         if (first) {
             first = false;
         } else {
@@ -249,7 +249,7 @@ void O1::link() {
     QUrl requestData = requestTokenUrl();
 #endif
     O0RequestParameter param("", "");
-    foreach(param, requestParameters())
+    for(const O0RequestParameter& param :requestParameters())
       requestData.addQueryItem(QString(param.name), QUrl::toPercentEncoding(QString(param.value)));
 
     // Get the request url and add parameters
@@ -277,7 +277,7 @@ void O1::link() {
     headers.append(O0RequestParameter(O2_OAUTH_SIGNATURE_METHOD, signatureMethod().toLatin1()));
     headers.append(O0RequestParameter(O2_OAUTH_SIGNATURE, generateSignature(headers, request, requestParameters(), QNetworkAccessManager::PostOperation)));
     log( QStringLiteral( "O1:link: Token request headers:" ) );
-    foreach(param, headers) {
+    for(const O0RequestParameter&param: headers) {
         log( QStringLiteral( "  %1=%2" ).arg( param.name, param.value ) );
     }
 
@@ -412,7 +412,7 @@ void O1::onTokenExchangeFinished() {
         // Set extra tokens if any
         if (!response.isEmpty()) {
             QVariantMap extraTokens;
-            foreach (QString key, response.keys()) {
+            for(const QString &key : response.keys()) {
                extraTokens.insert(key, response.value(key));
             }
             setExtraTokens(extraTokens);
@@ -427,7 +427,7 @@ void O1::onTokenExchangeFinished() {
 
 QMap<QString, QString> O1::parseResponse(const QByteArray &response) {
     QMap<QString, QString> ret;
-    foreach (QByteArray param, response.split('&')) {
+    for (const QByteArray &param: response.split('&')) {
         QList<QByteArray> kv = param.split('=');
         if (kv.length() == 2) {
             ret.insert(QUrl::fromPercentEncoding(kv[0]), QUrl::fromPercentEncoding(kv[1]));
