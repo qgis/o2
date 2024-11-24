@@ -37,7 +37,7 @@ QNetworkReply *O1Requestor::addTimer(QNetworkReply *reply) {
     return reply;
 }
 
-QNetworkRequest O1Requestor::setup(const QNetworkRequest &req, const QList<O0RequestParameter> &signingParameters, QNetworkAccessManager::Operation operation) {
+QNetworkRequest O1Requestor::setup(const QNetworkRequest &request, const QList<O0RequestParameter> &signingParameters, QNetworkAccessManager::Operation operation) {
     // Collect OAuth parameters
     QList<O0RequestParameter> oauthParams;
     oauthParams.append(O0RequestParameter(O2_OAUTH_CONSUMER_KEY, authenticator_->clientId().toLatin1()));
@@ -52,10 +52,10 @@ QNetworkRequest O1Requestor::setup(const QNetworkRequest &req, const QList<O0Req
 #endif
 
     // Add signature parameter
-    oauthParams.append(O0RequestParameter(O2_OAUTH_SIGNATURE, authenticator_->generateSignature(oauthParams, req, signingParameters, operation)));
+    oauthParams.append(O0RequestParameter(O2_OAUTH_SIGNATURE, authenticator_->generateSignature(oauthParams, request, signingParameters, operation)));
 
     // Return a copy of the original request with authorization header set
-    QNetworkRequest request(req);
-    authenticator_->decorateRequest(request, oauthParams);
-    return request;
+    QNetworkRequest req(request);
+    authenticator_->decorateRequest(req, oauthParams);
+    return req;
 }

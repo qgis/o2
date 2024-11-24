@@ -23,6 +23,10 @@ cppcheck --inline-suppr \
          --template='{file}:{line},{severity},{id},{message}' \
          --enable=all --inconclusive --std=c++11 \
          -DQ_PROPERTY = \
+         -DQ_DECLARE_FLAGS = \
+         -DQ_ENUMS = \
+         -DQ_DECLARE_OPERATORS_FOR_FLAGS = \
+         -Dforeach = \
          -j $(nproc) \
          ${SCRIPT_DIR}/../src \
          >>${LOG_FILE} 2>&1 &

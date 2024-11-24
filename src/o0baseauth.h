@@ -60,7 +60,7 @@ public:
     /// Should we use a reply server (default) or an external web interceptor?
     Q_PROPERTY(bool useExternalWebInterceptor READ useExternalWebInterceptor WRITE setUseExternalWebInterceptor)
     bool useExternalWebInterceptor();
-    void setUseExternalWebInterceptor(bool inUseExternalWebInterceptor);
+    void setUseExternalWebInterceptor(bool useExternalWebInterceptor);
 
     /// Page content on local host after successful oauth.
     /// Provide it in case you do not want to close the browser, but display something

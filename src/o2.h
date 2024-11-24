@@ -158,7 +158,7 @@ protected:
     QByteArray buildRequestBody(const QMap<QString, QString> &parameters);
 
     /// Set authentication code.
-    void setCode(const QString &v);
+    void setCode(const QString &c);
 
     /// Set refresh token.
     void setRefreshToken(const QString &v);

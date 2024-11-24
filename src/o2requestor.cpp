@@ -240,7 +240,7 @@ void O2Requestor::onUploadProgress(qint64 uploaded, qint64 total) {
     Q_EMIT uploadProgress(id_, uploaded, total);
 }
 
-int O2Requestor::setup(const QNetworkRequest &req, QNetworkAccessManager::Operation operation, const QByteArray &verb) {
+int O2Requestor::setup(const QNetworkRequest &request, QNetworkAccessManager::Operation operation, const QByteArray &verb) {
     static int currentId;
 
     if (status_ != Idle) {
@@ -248,10 +248,10 @@ int O2Requestor::setup(const QNetworkRequest &req, QNetworkAccessManager::Operat
         return -1;
     }
 
-    request_ = req;
+    request_ = request;
     operation_ = operation;
     id_ = currentId++;
-    url_ = req.url();
+    url_ = request.url();
 
     QUrl url = url_;
     if (addAccessTokenInQuery_) {
