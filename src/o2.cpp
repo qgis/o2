@@ -11,11 +11,11 @@
 #include <QVariantMap>
 #include <QUuid>
 
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QUrlQuery>
 #endif
 
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QRegularExpression>
 #else
 #include <QRegExp>
@@ -30,7 +30,7 @@
 
 /// Add query parameters to a query
 static void addQueryParametersToUrl(QUrl &url,  QList<QPair<QString, QString> > parameters) {
-#if QT_VERSION < 0x050000
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
     url.setQueryItems(parameters);
 #else
     QUrlQuery query(url);
@@ -194,7 +194,7 @@ void O2::link() {
 
     if (grantFlow_ == GrantFlowAuthorizationCode || grantFlow_ == GrantFlowImplicit) {
 
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
         const thread_local QRegularExpression rx("([^a-zA-Z0-9]|[-])");
         QString uniqueState = QUuid::createUuid().toString().remove(rx);
 #else
@@ -267,7 +267,7 @@ void O2::link() {
                 this,
                 &O2::onTokenReplyFinished,
                 Qt::QueuedConnection);
-#if QT_VERSION < 0x051500
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
         connect(tokenReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
@@ -289,7 +289,7 @@ void O2::link() {
                 this,
                 &O2::onDeviceAuthReplyFinished,
                 Qt::QueuedConnection);
-#if QT_VERSION < 0x051500
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
         connect(tokenReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
@@ -345,7 +345,7 @@ void O2::onVerificationReceived(const QMap<QString, QString> response) {
                 this,
                 &O2::onTokenReplyFinished,
                 Qt::QueuedConnection);
-#if QT_VERSION < 0x051500
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
         connect(tokenReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
@@ -562,7 +562,7 @@ void O2::refresh() {
             this,
             &O2::onRefreshFinished,
             Qt::QueuedConnection);
-#if QT_VERSION < 0x051500
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(refreshReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRefreshError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
     connect(refreshReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRefreshError(QNetworkReply::NetworkError)), Qt::QueuedConnection);

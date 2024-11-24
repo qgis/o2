@@ -5,7 +5,7 @@
 
 O2Reply::O2Reply(QNetworkReply *reply, int timeOut, QObject *parent): QTimer(parent), reply(reply) {
     setSingleShot(true);
-#if QT_VERSION < 0x051500
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(this, SIGNAL(error(QNetworkReply::NetworkError)), reply, SIGNAL(error(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
     connect(this, SIGNAL(error(QNetworkReply::NetworkError)), reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), Qt::QueuedConnection);

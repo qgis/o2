@@ -3,7 +3,7 @@
 #include <QMap>
 #include <QString>
 #include <QStringList>
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QUrlQuery>
 #endif
 
@@ -41,7 +41,7 @@ void O2Skydrive::link() {
 
     // Show authentication URL with a web browser
     QUrl url(requestUrl_);
-#if QT_VERSION < 0x050000
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
     url.setQueryItems(parameters);
 #else
     QUrlQuery query(url);
@@ -59,7 +59,7 @@ void O2Skydrive::redirected(const QUrl &url) {
     if (grantFlow_ == GrantFlowAuthorizationCode) {
         // Get access code
         QString urlCode;
-#if QT_VERSION < 0x050000
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
         urlCode = url.queryItemValue(O2_OAUTH2_GRANT_TYPE_CODE);
 #else
         QUrlQuery query(url);
@@ -89,7 +89,7 @@ void O2Skydrive::redirected(const QUrl &url) {
                 this,
                 &O2Skydrive::onTokenReplyFinished,
                 Qt::QueuedConnection);
-#if QT_VERSION < 0x051500
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
         connect(tokenReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);

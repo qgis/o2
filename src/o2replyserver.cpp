@@ -7,7 +7,7 @@
 #include <QTimer>
 #include <QStringList>
 #include <QUrl>
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QUrlQuery>
 #endif
 
@@ -95,7 +95,7 @@ QMap<QString, QString> O2ReplyServer::parseQueryParams(QByteArray *data) {
     QUrl getTokenUrl(splitGetLine);
 
     QList< QPair<QString, QString> > tokens;
-#if QT_VERSION < 0x050000
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
     tokens = getTokenUrl.queryItems();
 #else
     QUrlQuery query(getTokenUrl);
