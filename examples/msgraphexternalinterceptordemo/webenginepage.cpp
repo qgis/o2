@@ -46,7 +46,7 @@ QWebEnginePage *WebEnginePage::createWindow(WebWindowType type)
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 void WebEnginePage::onAuthWindowCallbackCalled(const QString &inURLString)

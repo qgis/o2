@@ -10,7 +10,7 @@ class YTDemo : public QObject
     Q_OBJECT
 
 public:
-    explicit YTDemo(QObject *parent = 0);
+    explicit YTDemo(QObject *parent = nullptr);
 
 signals:
     void extraTokensReady(const QVariantMap &extraTokens);

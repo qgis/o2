@@ -22,7 +22,7 @@ class Job;
 class O0_EXPORT o0keyChainStore  : public  O0AbstractStore{
     Q_OBJECT
 public:
-    explicit o0keyChainStore(const QString& app,const QString& name,QObject *parent = 0);
+    explicit o0keyChainStore(const QString& app,const QString& name,QObject *parent = nullptr);
 
     /// Retrieve a string value by key.
     QString value(const QString &key, const QString &defaultValue = QString());

@@ -10,7 +10,7 @@ class MsgraphDemo : public QObject
     Q_OBJECT
 
 public:
-    explicit MsgraphDemo(QObject *parent = 0);
+    explicit MsgraphDemo(QObject *parent = nullptr);
 
 signals:
     void extraTokensReady(const QVariantMap &extraTokens);

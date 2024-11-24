@@ -171,7 +171,7 @@ void O2::link() {
     // Create the reply server if it doesn't exist
     // and we don't use an external web interceptor
     if(!useExternalWebInterceptor_) {
-        if(replyServer() == NULL) {
+        if(replyServer() == nullptr) {
             O2ReplyServer * replyServer = new O2ReplyServer(this);
             connect(replyServer, SIGNAL(verificationReceived(QMap<QString,QString>)), this, SLOT(onVerificationReceived(QMap<QString,QString>)));
             connect(replyServer, SIGNAL(serverClosed(bool)), this, SLOT(serverHasClosed(bool)));
@@ -651,7 +651,7 @@ void O2::serverHasClosed(bool paramsfound)
         Q_EMIT linkingFailed();
     }
     // poll server is not re-used for later auth requests
-    setPollServer(NULL);
+    setPollServer(nullptr);
 }
 
 QString O2::localhostPolicy() const {

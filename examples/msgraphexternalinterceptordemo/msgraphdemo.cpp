@@ -20,7 +20,7 @@ const char MSGRAPH_USER_INFO_URL[] = "https://graph.microsoft.com/v1.0/me";
 #define GRANTFLOW_STR(v) QString(QENUM_NAME(O2, GrantFlow, v))
 
 MsgraphDemo::MsgraphDemo(QObject *parent) :
-    QObject(parent), authDialog(NULL), requestId_(0) {
+    QObject(parent), authDialog(nullptr), requestId_(0) {
     o2Msgraph_ = new O2Msgraph(this);
 
     o2Msgraph_->setClientId(MSGRAPH_APP_ID);
@@ -79,7 +79,7 @@ void MsgraphDemo::onOpenBrowser(const QUrl &url) {
 
 void MsgraphDemo::onAuthWindowCallbackCalled(const QString &inURLString)
 {
-    if(o2Msgraph_ != NULL)
+    if(o2Msgraph_ != nullptr)
     {
         QUrl getTokenUrl(inURLString);
         QUrlQuery query(getTokenUrl);

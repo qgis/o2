@@ -19,7 +19,7 @@ class O0_EXPORT O2Requestor: public QObject {
     Q_OBJECT
 
 public:
-    explicit O2Requestor(QNetworkAccessManager *manager, O2 *authenticator, QObject *parent = 0);
+    explicit O2Requestor(QNetworkAccessManager *manager, O2 *authenticator, QObject *parent = nullptr);
     ~O2Requestor();
     
     

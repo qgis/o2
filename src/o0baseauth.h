@@ -26,7 +26,7 @@ public:
         Warning,
         Critical
     };
-    explicit O0BaseAuth(QObject *parent = 0, O0AbstractStore *store = 0);
+    explicit O0BaseAuth(QObject *parent = nullptr, O0AbstractStore *store = nullptr);
 
 public:
     /// Are we authenticated?

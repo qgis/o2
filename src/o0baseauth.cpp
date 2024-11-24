@@ -13,7 +13,7 @@ static const quint16 DefaultLocalPort = 1965;
 
 std::function<void( const QString&, O0BaseAuth::LogLevel level ) > O0BaseAuth::sLoggingFunction;
 
-O0BaseAuth::O0BaseAuth(QObject *parent, O0AbstractStore *store): QObject(parent), store_(0), useExternalWebInterceptor_(false), replyServer_(NULL), pollServer_(NULL) {
+O0BaseAuth::O0BaseAuth(QObject *parent, O0AbstractStore *store): QObject(parent), store_(nullptr), useExternalWebInterceptor_(false), replyServer_(nullptr), pollServer_(nullptr) {
     localPort_ = DefaultLocalPort;
     setStore(store);
 }

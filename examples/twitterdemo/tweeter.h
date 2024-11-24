@@ -13,7 +13,7 @@ class Tweeter : public QObject
 {
     Q_OBJECT
 public:
-    explicit Tweeter(QObject *parent = 0);
+    explicit Tweeter(QObject *parent = nullptr);
 
 signals:
     void extraTokensReady(const QVariantMap &extraTokens);

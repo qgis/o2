@@ -216,7 +216,7 @@ void O1::link() {
     // Create the reply server if it doesn't exist
     // and we don't use an external web interceptor
     if(!useExternalWebInterceptor_) {
-        if(replyServer() == NULL) {
+        if(replyServer() == nullptr) {
             O2ReplyServer * replyServer = new O2ReplyServer(this);
             connect(replyServer, SIGNAL(verificationReceived(QMap<QString,QString>)), this, SLOT(onVerificationReceived(QMap<QString,QString>)));
             setReplyServer(replyServer);

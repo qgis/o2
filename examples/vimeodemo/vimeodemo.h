@@ -10,7 +10,7 @@ class VimeoDemo : public QObject
     Q_OBJECT
 
 public:
-    explicit VimeoDemo(QObject *parent = 0);
+    explicit VimeoDemo(QObject *parent = nullptr);
 
 signals:
     void extraTokensReady(const QVariantMap &extraTokens);
