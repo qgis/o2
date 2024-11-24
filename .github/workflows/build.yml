@@ -22,7 +22,8 @@ jobs:
             clang \
             qtbase5-dev \
             qt5keychain-dev \
-            qtscript5-dev
+            qtscript5-dev \
+            qtwebengine5-dev
           
       - name: Build
         run: |
