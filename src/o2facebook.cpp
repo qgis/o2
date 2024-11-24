@@ -28,8 +28,8 @@ void O2Facebook::onVerificationReceived(const QMap<QString, QString> response) {
 
     if (response.contains("error")) {
         qWarning() << "O2Facebook::onVerificationReceived: Verification failed";
-        for (const QString &key: response.keys()) {
-            qWarning() << "O2Facebook::onVerificationReceived:" << key << response.value(key);
+        for (auto it = response.constBegin(); it != response.constEnd(); ++it) {
+            qWarning() << "O2Facebook::onVerificationReceived:" << it.key() << it.value();
         }
         Q_EMIT linkingFailed();
         return;

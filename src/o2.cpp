@@ -232,8 +232,9 @@ void O2::link() {
         parameters.append(qMakePair(QString(O2_OAUTH2_STATE), uniqueState));
         if ( !apiKey_.isEmpty() )
             parameters.append(qMakePair(QString(O2_OAUTH2_API_KEY), apiKey_));
-        for (const QString &key: extraRequestParams().keys()) {
-            parameters.append(qMakePair(key, extraRequestParams().value(key).toString()));
+        const QVariantMap extraParams = extraRequestParams();
+        for (auto it = extraParams.constBegin(); it != extraParams.constEnd(); ++it) {
+            parameters.append(qMakePair(it.key(), it.value().toString()));
         }
         // Show authentication URL with a web browser
         QUrl url(requestUrl_);
@@ -251,8 +252,10 @@ void O2::link() {
         parameters.append(O0RequestParameter(O2_OAUTH2_SCOPE, scope_.toUtf8()));
         if ( !apiKey_.isEmpty() )
             parameters.append(O0RequestParameter(O2_OAUTH2_API_KEY, apiKey_.toUtf8()));
-        for (const QString &key: extraRequestParams().keys()) {
-            parameters.append(O0RequestParameter(key.toUtf8(), extraRequestParams().value(key).toByteArray()));
+
+        const QVariantMap extraParams = extraRequestParams();
+        for (auto it = extraParams.constBegin(); it != extraParams.constEnd(); ++it) {
+            parameters.append(O0RequestParameter(it.key().toUtf8(), it.value().toByteArray()));
         }
         QByteArray payload = O0BaseAuth::createQueryParameters(parameters);
 
@@ -408,9 +411,9 @@ void O2::onTokenReplyFinished() {
 
         // Dump tokens
         log( QStringLiteral("O2::onTokenReplyFinished: Tokens returned:\n") );
-        for (const QString &key: tokens.keys()) {
+        for (auto it = tokens.constBegin(); it != tokens.constEnd(); ++it) {
             // SENSITIVE DATA in RelWithDebInfo or Debug builds, so it is truncated first
-            log( QStringLiteral("%1: %2...").arg( key, tokens.value( key ).toString().left( 3 ) ) );
+            log( QStringLiteral("%1: %2...").arg( it.key(), it.value().toString().left( 3 ) ) );
         }
 
         // Check for mandatory tokens
@@ -455,14 +458,13 @@ void O2::onTokenReplyError(QNetworkReply::NetworkError error) {
 QByteArray O2::buildRequestBody(const QMap<QString, QString> &parameters) {
     QByteArray body;
     bool first = true;
-    for (const QString &key: parameters.keys()) {
+    for (auto it = parameters.constBegin(); it != parameters.constEnd(); ++it) {
         if (first) {
             first = false;
         } else {
             body.append("&");
         }
-        QString value = parameters.value(key);
-        body.append(QUrl::toPercentEncoding(key) + QString("=").toUtf8() + QUrl::toPercentEncoding(value));
+        body.append(QUrl::toPercentEncoding(it.key()) + QString("=").toUtf8() + QUrl::toPercentEncoding(it.value()));
     }
     return body;
 }
@@ -633,9 +635,9 @@ void O2::onDeviceAuthReplyFinished()
 
         // Dump tokens
         log( QStringLiteral("O2::onDeviceAuthReplyFinished: Tokens returned:\n") );
-        for (const QString &key: params.keys()) {
+        for (auto it = params.constBegin(); it != params.constEnd(); ++it) {
             // SENSITIVE DATA in RelWithDebInfo or Debug builds, so it is truncated first
-            log( QStringLiteral("%1: %2...").arg( key, params.value( key ).toString().left( 3 ) ) );
+            log( QStringLiteral("%1: %2...").arg( it.key(), it.value().toString().left( 3 ) ) );
         }
 
         // Check for mandatory parameters

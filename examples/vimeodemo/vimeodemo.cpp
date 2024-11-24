@@ -86,8 +86,8 @@ void VimeoDemo::onLinkingSucceeded() {
     if (!extraTokens.isEmpty()) {
         emit extraTokensReady(extraTokens);
         qDebug() << "Extra tokens in response:";
-        for (const QString &key : extraTokens.keys()) {
-            qDebug() << "\t" << key << ":" << (extraTokens.value(key).toString().left(3) + "...");
+        for (auto it = extraTokens.constBegin(); it != extraTokens.constEnd(); ++it) {
+            qDebug() << "\t" << it.key() << ":" << (it.value().toString().left(3) + "...");
         }
     }
     emit linkingSucceeded();

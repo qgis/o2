@@ -249,7 +249,8 @@ void O1::link() {
     QUrl requestData = requestTokenUrl();
 #endif
     O0RequestParameter param("", "");
-    for(const O0RequestParameter& param :requestParameters())
+    const QList<O0RequestParameter> parameters = requestParameters();
+    for(const O0RequestParameter& param :parameters)
       requestData.addQueryItem(QString(param.name), QUrl::toPercentEncoding(QString(param.value)));
 
     // Get the request url and add parameters
@@ -277,7 +278,7 @@ void O1::link() {
     headers.append(O0RequestParameter(O2_OAUTH_SIGNATURE_METHOD, signatureMethod().toLatin1()));
     headers.append(O0RequestParameter(O2_OAUTH_SIGNATURE, generateSignature(headers, request, requestParameters(), QNetworkAccessManager::PostOperation)));
     log( QStringLiteral( "O1:link: Token request headers:" ) );
-    for(const O0RequestParameter&param: headers) {
+    for(const O0RequestParameter&param: qAsConst(headers)) {
         log( QStringLiteral( "  %1=%2" ).arg( param.name, param.value ) );
     }
 
@@ -412,8 +413,8 @@ void O1::onTokenExchangeFinished() {
         // Set extra tokens if any
         if (!response.isEmpty()) {
             QVariantMap extraTokens;
-            for(const QString &key : response.keys()) {
-               extraTokens.insert(key, response.value(key));
+            for (auto it = response.constBegin(); it != response.constEnd(); ++it) {
+                extraTokens.insert(it.key(), it.value());
             }
             setExtraTokens(extraTokens);
         }
@@ -427,7 +428,8 @@ void O1::onTokenExchangeFinished() {
 
 QMap<QString, QString> O1::parseResponse(const QByteArray &response) {
     QMap<QString, QString> ret;
-    for (const QByteArray &param: response.split('&')) {
+    const QList<QByteArray> params = response.split('&');
+    for (const QByteArray &param: params) {
         QList<QByteArray> kv = param.split('=');
         if (kv.length() == 2) {
             ret.insert(QUrl::fromPercentEncoding(kv[0]), QUrl::fromPercentEncoding(kv[1]));
