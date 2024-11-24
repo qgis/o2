@@ -78,7 +78,8 @@ void O2Facebook::onTokenReplyFinished() {
         const QJsonObject rootObject = doc.object();
 
         QVariantMap reply;
-        for (const QString &key : rootObject.keys()) {
+        const QStringList keys = rootObject.keys();
+        for (const QString &key : keys) {
             reply.insert(key, rootObject[key].toVariant());
         }
 
