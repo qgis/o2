@@ -32,7 +32,7 @@ private slots:
 
 private:
     O2Google *o2Google_;
-    int requestId_;
+    int requestId_{0};
 };
 
 #endif // YTDEMO_H

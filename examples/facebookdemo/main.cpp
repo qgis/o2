@@ -20,7 +20,7 @@ class Helper : public QObject {
     Q_OBJECT
 
 public:
-    Helper() : QObject(), fbdemo_(this), waitForMsg_(false), msg_(QString()) {}
+    Helper() : QObject(), fbdemo_(this) {}
 
 public slots:
     void processArgs() {
@@ -57,7 +57,7 @@ public slots:
 
 private:
     FBDemo fbdemo_;
-    bool waitForMsg_;
+    bool waitForMsg_{false};
     QString msg_;
 };
 

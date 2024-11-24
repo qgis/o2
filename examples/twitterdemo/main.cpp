@@ -27,7 +27,7 @@ class Helper : public QObject {
     Q_OBJECT
 
 public:
-    Helper() : QObject(), tweeter_(this), waitForMsg_(false), msg_(QString()) {}
+    Helper() : QObject(), tweeter_(this) {}
 
 public slots:
     void processArgs() {
@@ -95,7 +95,7 @@ private slots:
 
 private:
     Tweeter tweeter_;
-    bool waitForMsg_;
+    bool waitForMsg_{false};
     QString msg_;
 };
 

@@ -20,7 +20,7 @@ const char MSGRAPH_USER_INFO_URL[] = "https://graph.microsoft.com/v1.0/me";
 #define GRANTFLOW_STR(v) QString(QENUM_NAME(O2, GrantFlow, v))
 
 MsgraphDemo::MsgraphDemo(QObject *parent) :
-    QObject(parent), authDialog(nullptr), requestId_(0) {
+    QObject(parent) {
     o2Msgraph_ = new O2Msgraph(this);
 
     o2Msgraph_->setClientId(MSGRAPH_APP_ID);

@@ -32,7 +32,7 @@ private slots:
 
 private:
     O2Msgraph *o2Msgraph_;
-    int requestId_;
+    int requestId_{0};
 };
 
 #endif // MSGRAPHDEMO_H

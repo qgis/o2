@@ -15,8 +15,7 @@
 #include "o2replyserver.h"
 #include "o0baseauth.h"
 
-O2ReplyServer::O2ReplyServer(QObject *parent): QTcpServer(parent),
-  timeout_(15), maxtries_(3), tries_(0) {
+O2ReplyServer::O2ReplyServer(QObject *parent): QTcpServer(parent) {
     O0BaseAuth::log( QStringLiteral( "O2ReplyServer: Starting" ) );
     connect(this, SIGNAL(newConnection()), this, SLOT(onIncomingConnection()));
     replyContent_ = "<HTML></HTML>";

@@ -11,7 +11,7 @@ class Helper : public QObject {
     Q_OBJECT
 
 public:
-    Helper() : QObject(), ytdemo_(this), waitForMsg_(false), msg_(QString()) {}
+    Helper() : QObject(), ytdemo_(this) {}
 
 public slots:
     void run() {
@@ -45,7 +45,7 @@ public slots:
 
 private:
     YTDemo ytdemo_;
-    bool waitForMsg_;
+    bool waitForMsg_{false};
     QString msg_;
 };
 

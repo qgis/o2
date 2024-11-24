@@ -22,7 +22,7 @@ const int localPort = 8888;
 #define GRANTFLOW_STR(v) QString(QENUM_NAME(O2, GrantFlow, v))
 
 VimeoDemo::VimeoDemo(QObject *parent) :
-    QObject(parent), requestId_(0) {
+    QObject(parent) {
     o2Vimeo_ = new O2Vimeo(this);
 
     o2Vimeo_->setClientId(VIMEO_APP_KEY);

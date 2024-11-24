@@ -115,16 +115,16 @@ protected:
     QNetworkRequest request_;
     QByteArray data_;
     QHttpMultiPart* multipartData_;
-    QNetworkReply *reply_;
-    Status status_;
+    QNetworkReply *reply_{nullptr};
+    Status status_{Idle};
     int id_;
     QNetworkAccessManager::Operation operation_;
     QUrl url_;
     O2ReplyList timedReplies_;
     QNetworkReply::NetworkError error_;
-    bool addAccessTokenInQuery_;
+    bool addAccessTokenInQuery_{true};
     QString accessTokenInAuthenticationHTTPHeaderFormat_;
-    bool rawData_;
+    bool rawData_{false};
 };
 
 #endif // O2REQUESTOR_H

@@ -45,9 +45,9 @@ public Q_SLOTS:
 
 protected:
     QByteArray replyContent_;
-    int timeout_;
-    int maxtries_;
-    int tries_;
+    int timeout_{15};
+    int maxtries_{3};
+    int tries_{0};
     QString uniqueState_;
 };
 

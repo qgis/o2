@@ -10,7 +10,7 @@
 #include "o2.h"
 #include "o0globals.h"
 
-O2Requestor::O2Requestor(QNetworkAccessManager *manager, O2 *authenticator, QObject *parent): QObject(parent), reply_(nullptr), status_(Idle), addAccessTokenInQuery_(true), rawData_(false) {
+O2Requestor::O2Requestor(QNetworkAccessManager *manager, O2 *authenticator, QObject *parent): QObject(parent) {
     manager_ = manager;
     authenticator_ = authenticator;
     if (authenticator) {

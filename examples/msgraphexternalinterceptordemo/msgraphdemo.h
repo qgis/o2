@@ -35,8 +35,8 @@ private slots:
 
 private:
     O2Msgraph *o2Msgraph_;
-    WebWindow* authDialog;
-    int requestId_;
+    WebWindow* authDialog{nullptr};
+    int requestId_{0};
 };
 
 #endif // MSGRAPHDEMO_H

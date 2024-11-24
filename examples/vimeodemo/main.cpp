@@ -14,7 +14,7 @@ class Helper : public QObject {
     Q_OBJECT
 
 public:
-    Helper() : QObject(), demo_(this), waitForMsg_(false), msg_(QString()) {}
+    Helper() : QObject(), demo_(this) {}
 
 public slots:
     void run() {
@@ -48,7 +48,7 @@ public slots:
 
 private:
     VimeoDemo demo_;
-    bool waitForMsg_;
+    bool waitForMsg_{false};
     QString msg_;
 };
 

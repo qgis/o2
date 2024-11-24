@@ -22,7 +22,7 @@ const int localPort = 8888;
 #define GRANTFLOW_STR(v) QString(QENUM_NAME(O2, GrantFlow, v))
 
 MsgraphDemo::MsgraphDemo(QObject *parent) :
-    QObject(parent), requestId_(0) {
+    QObject(parent) {
     o2Msgraph_ = new O2Msgraph(this);
 
     o2Msgraph_->setClientId(MSGRAPH_APP_ID);

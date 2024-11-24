@@ -155,17 +155,17 @@ protected:
     QUrl authorizeUrl_;
     QUrl accessTokenUrl_;
     quint16 localPort_;
-    O0AbstractStore *store_;
+    O0AbstractStore *store_{nullptr};
     QVariantMap extraTokens_;
     QByteArray pkceCodeVerifier_;
     QString pkceCodeChallenge_;
-    bool useExternalWebInterceptor_;
+    bool useExternalWebInterceptor_{false};
     QByteArray replyContent_;
     static std::function<void( const QString&, LogLevel level ) > sLoggingFunction;
 
 private:
-    O2ReplyServer *replyServer_;
-    O2PollServer *pollServer_;
+    O2ReplyServer *replyServer_{nullptr};
+    O2PollServer *pollServer_{nullptr};
 };
 
 #endif // O0BASEAUTH

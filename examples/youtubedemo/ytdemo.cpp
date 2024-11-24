@@ -21,7 +21,7 @@ const int localPort = 8888;
 #define GRANTFLOW_STR(v) QString(QENUM_NAME(O2, GrantFlow, v))
 
 YTDemo::YTDemo(QObject *parent) :
-    QObject(parent), requestId_(0) {
+    QObject(parent) {
     o2Google_ = new O2Google(this);
 
     o2Google_->setClientId(GOOGLE_APP_KEY);

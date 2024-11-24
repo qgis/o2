@@ -32,7 +32,7 @@ private slots:
 
 private:
     O2Vimeo *o2Vimeo_;
-    int requestId_;
+    int requestId_{0};
 };
 
 #endif // VMDEMO_H
