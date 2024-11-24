@@ -3,7 +3,7 @@
 
 #include "o2reply.h"
 
-O2Reply::O2Reply(QNetworkReply *r, int timeOut, QObject *parent): QTimer(parent), reply(r) {
+O2Reply::O2Reply(QNetworkReply *reply, int timeOut, QObject *parent): QTimer(parent), reply(reply) {
     setSingleShot(true);
 #if QT_VERSION < 0x051500
     connect(this, SIGNAL(error(QNetworkReply::NetworkError)), reply, SIGNAL(error(QNetworkReply::NetworkError)), Qt::QueuedConnection);
@@ -42,7 +42,7 @@ void O2ReplyList::remove(QNetworkReply *reply) {
     }
 }
 
-O2Reply *O2ReplyList::find(QNetworkReply *reply) {
+O2Reply *O2ReplyList::find(const QNetworkReply *reply) {
     foreach (O2Reply *timedReply, replies_) {
         if (timedReply->reply == reply) {
             return timedReply;
@@ -51,7 +51,7 @@ O2Reply *O2ReplyList::find(QNetworkReply *reply) {
     return 0;
 }
 
-bool O2ReplyList::ignoreSslErrors()
+bool O2ReplyList::ignoreSslErrors() const
 {
     return ignoreSslErrors_;
 }
