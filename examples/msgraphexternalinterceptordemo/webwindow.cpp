@@ -60,7 +60,7 @@ WebWindow::~WebWindow()
 
 void WebWindow::closeEvent(QCloseEvent *)
 {
-	emit (windowClosed());
+    emit windowClosed();
 }
 
 void WebWindow::onCallbackCatched(const QString &inURLString)
