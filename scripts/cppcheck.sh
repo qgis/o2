@@ -25,6 +25,7 @@ cppcheck --inline-suppr \
          -DQ_PROPERTY = \
          -DQ_DECLARE_FLAGS = \
          -DQ_ENUMS = \
+         -DQ_ENUM = \
          -DQ_DECLARE_OPERATORS_FOR_FLAGS = \
          -Dforeach = \
          -j $(nproc) \

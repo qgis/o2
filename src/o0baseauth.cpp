@@ -13,8 +13,7 @@ static const quint16 DefaultLocalPort = 1965;
 
 std::function<void( const QString&, O0BaseAuth::LogLevel level ) > O0BaseAuth::sLoggingFunction;
 
-O0BaseAuth::O0BaseAuth(QObject *parent, O0AbstractStore *store): QObject(parent) {
-    localPort_ = DefaultLocalPort;
+O0BaseAuth::O0BaseAuth(QObject *parent, O0AbstractStore *store): QObject(parent), localPort_( DefaultLocalPort ) {
     setStore(store);
 }
 
@@ -118,9 +117,8 @@ void O0BaseAuth::setLocalPort(int value) {
 }
 
 QVariantMap O0BaseAuth::extraTokens() {
-    QString key = QString(O2_KEY_EXTRA_TOKENS).arg(clientId_);
-    QString value = store_->value(key);
-    QByteArray bytes = QByteArray::fromBase64(value.toLatin1());
+    const QString key = QString(O2_KEY_EXTRA_TOKENS).arg(clientId_);
+    QByteArray bytes = QByteArray::fromBase64(store_->value(key).toLatin1());
     QDataStream stream(&bytes, QIODevice::ReadOnly);
     stream >> extraTokens_;
     return extraTokens_;

@@ -38,16 +38,16 @@ QByteArray O1::userAgent() const {
     return userAgent_;
 }
 
-void O1::setUserAgent(const QByteArray &v) {
-    userAgent_ = v;
+void O1::setUserAgent(const QByteArray &value) {
+    userAgent_ = value;
 }
 
 QUrl O1::requestTokenUrl() {
     return requestTokenUrl_;
 }
 
-void O1::setRequestTokenUrl(const QUrl &v) {
-    requestTokenUrl_ = v;
+void O1::setRequestTokenUrl(const QUrl &value) {
+    requestTokenUrl_ = value;
     Q_EMIT requestTokenUrlChanged();
 }
 
@@ -55,16 +55,16 @@ QList<O0RequestParameter> O1::requestParameters() {
     return requestParameters_;
 }
 
-void O1::setRequestParameters(const QList<O0RequestParameter> &v) {
-    requestParameters_ = v;
+void O1::setRequestParameters(const QList<O0RequestParameter> &value) {
+    requestParameters_ = value;
 }
 
 QString O1::callbackUrl() {
     return callbackUrl_;
 }
 
-void O1::setCallbackUrl(const QString &v) {
-    callbackUrl_ = v;
+void O1::setCallbackUrl(const QString &value) {
+    callbackUrl_ = value;
 }
 
 QUrl O1::authorizeUrl() {
@@ -248,7 +248,6 @@ void O1::link() {
 #else
     QUrl requestData = requestTokenUrl();
 #endif
-    O0RequestParameter param("", "");
     const QList<O0RequestParameter> parameters = requestParameters();
     for(const O0RequestParameter& param :parameters)
       requestData.addQueryItem(QString(param.name), QUrl::toPercentEncoding(QString(param.value)));
@@ -278,7 +277,7 @@ void O1::link() {
     headers.append(O0RequestParameter(O2_OAUTH_SIGNATURE_METHOD, signatureMethod().toLatin1()));
     headers.append(O0RequestParameter(O2_OAUTH_SIGNATURE, generateSignature(headers, request, requestParameters(), QNetworkAccessManager::PostOperation)));
     log( QStringLiteral( "O1:link: Token request headers:" ) );
-    for(const O0RequestParameter&param: qAsConst(headers)) {
+    for(const O0RequestParameter &param: qAsConst(headers)) {
         log( QStringLiteral( "  %1=%2" ).arg( param.name, param.value ) );
     }
 
