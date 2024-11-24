@@ -16,7 +16,11 @@ jobs:
         
       - name: Get deps
         run: |
-          sudo apt-get install cmake ninja-build clang
+          sudo apt-get install \
+            cmake \
+            ninja-build \
+            clang \
+            qtbase5-dev
           
       - name: Build
         run: |
