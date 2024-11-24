@@ -1,4 +1,4 @@
-name: 🧪 build
+name: 🧪Qt 5 linux build
 
 on:
   push:
