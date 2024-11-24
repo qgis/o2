@@ -61,8 +61,8 @@ void VimeoDemo::getUserName() {
     QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
     O2Requestor *requestor = new O2Requestor(mgr, o2Vimeo_, this);
     requestId_ = requestor->get(request);
-    connect(requestor, SIGNAL(finished(int, QNetworkReply::NetworkError, QByteArray)),
-        this, SLOT(onFinished(int, QNetworkReply::NetworkError, QByteArray))
+    connect(requestor, qOverload<int, QNetworkReply::NetworkError, QByteArray>(&O2Requestor::finished),
+        this, &VimeoDemo::onFinished
     );
     qDebug() << "Getting user channel info... Please wait.";
 }

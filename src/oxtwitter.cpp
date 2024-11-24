@@ -71,7 +71,7 @@ void OXTwitter::link() {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenExchangeError(QNetworkReply::NetworkError)));
 #else
-    connect(reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenExchangeError(QNetworkReply::NetworkError)));
+    connect(reply, &QNetworkReply::errorOccurred, this, &OXTwitter::onTokenExchangeError);
 #endif
     connect(reply, &QNetworkReply::finished, this, &OXTwitter::onTokenExchangeFinished);
 }

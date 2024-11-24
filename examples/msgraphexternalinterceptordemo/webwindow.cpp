@@ -25,8 +25,9 @@ WebWindow::WebWindow(QSize inWindowSize, QUrl inLoginURL, QString inRedirectURLS
 	
     mWebEngineProfile = new QWebEngineProfile();
 	
-    mWebEnginePage = new WebEnginePage(mWebEngineProfile, inRedirectURLString);
-    QObject::connect(mWebEnginePage, SIGNAL(callbackCatched(const QString &)), this, SLOT(onCallbackCatched(const QString &)));
+    WebEnginePage* page = new WebEnginePage(mWebEngineProfile, inRedirectURLString);
+    QObject::connect(page, &WebEnginePage::callbackCatched, this, &WebWindow::onCallbackCatched);
+    mWebEnginePage = page;
 	
 	mWebView->setPage(mWebEnginePage);
 	

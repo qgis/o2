@@ -218,7 +218,9 @@ void O1::link() {
     if(!useExternalWebInterceptor_) {
         if(replyServer() == nullptr) {
             O2ReplyServer * replyServer = new O2ReplyServer(this);
-            connect(replyServer, SIGNAL(verificationReceived(QMap<QString,QString>)), this, SLOT(onVerificationReceived(QMap<QString,QString>)));
+            connect(replyServer, &O2ReplyServer::verificationReceived,
+                    this, &O1::onVerificationReceived
+                    );
             setReplyServer(replyServer);
         }
     }
@@ -290,7 +292,7 @@ void O1::link() {
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenRequestError(QNetworkReply::NetworkError)));
 #else
-    connect(reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenRequestError(QNetworkReply::NetworkError)));
+    connect(reply, &QNetworkReply::errorOccurred, this, &O1::onTokenRequestError);
 #endif
     connect(reply, &QNetworkReply::finished, this, &O1::onTokenRequestFinished);
 }
@@ -380,7 +382,7 @@ void O1::exchangeToken() {
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenExchangeError(QNetworkReply::NetworkError)));
 #else
-    connect(reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenExchangeError(QNetworkReply::NetworkError)));
+    connect(reply, &QNetworkReply::errorOccurred, this, &O1::onTokenExchangeError);
 #endif
     connect(reply, &QNetworkReply::finished, this, &O1::onTokenExchangeFinished);
 }

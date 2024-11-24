@@ -89,7 +89,7 @@ public slots:
 
 private slots:
     void postStatusUpdate(const QString& msg) {
-        connect(&tweeter_, SIGNAL(statusPosted()), qApp, SLOT(quit()));
+        connect(&tweeter_, &Tweeter::statusPosted, qApp, &QApplication::quit);
         tweeter_.postStatusUpdate(msg);
     }
 
