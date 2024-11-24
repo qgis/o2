@@ -20,7 +20,8 @@ jobs:
             cmake \
             ninja-build \
             clang \
-            qtbase5-dev
+            qtbase5-dev \
+            qt5keychain-dev
           
       - name: Build
         run: |
