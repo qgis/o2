@@ -70,7 +70,7 @@ void o0keyChainStore::initJob(QKeychain::Job &job) const {
 
 int o0keyChainStore::executeJob(QKeychain::Job &job, const char *actionName) const {
     QEventLoop loop;
-    job.connect( &job, SIGNAL(finished(QKeychain::Job*)), &loop, SLOT(quit()) );
+    job.connect(&job, &Job::finished, &loop, &QEventLoop::quit);
     job.start();
     loop.exec();
 

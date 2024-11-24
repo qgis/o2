@@ -73,5 +73,5 @@ void OXTwitter::link() {
 #else
     connect(reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenExchangeError(QNetworkReply::NetworkError)));
 #endif
-    connect(reply, SIGNAL(finished()), this, SLOT(onTokenExchangeFinished()));
+    connect(reply, &QNetworkReply::finished, this, &OXTwitter::onTokenExchangeFinished);
 }

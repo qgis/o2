@@ -292,7 +292,7 @@ void O1::link() {
 #else
     connect(reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenRequestError(QNetworkReply::NetworkError)));
 #endif
-    connect(reply, SIGNAL(finished()), this, SLOT(onTokenRequestFinished()));
+    connect(reply, &QNetworkReply::finished, this, &O1::onTokenRequestFinished);
 }
 
 void O1::onTokenRequestError(QNetworkReply::NetworkError error) {
@@ -382,7 +382,7 @@ void O1::exchangeToken() {
 #else
     connect(reply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenExchangeError(QNetworkReply::NetworkError)));
 #endif
-    connect(reply, SIGNAL(finished()), this, SLOT(onTokenExchangeFinished()));
+    connect(reply, &QNetworkReply::finished, this, &O1::onTokenExchangeFinished);
 }
 
 void O1::onTokenExchangeError(QNetworkReply::NetworkError error) {

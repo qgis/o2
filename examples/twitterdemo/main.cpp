@@ -38,8 +38,8 @@ public slots:
                                              OPT_PASSWORD,
                                              OPT_STATUS).toLatin1();
         const char *helpText = help.constData();
-        connect(&tweeter_, SIGNAL(linkingFailed()), this, SLOT(onLinkingFailed()));
-        connect(&tweeter_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
+        connect(&tweeter_, &Tweeter::linkingFailed, this, &Helper::onLinkingFailed);
+        connect(&tweeter_, &Tweeter::linkingSucceeded, this, &Helper::onLinkingSucceeded);
 
         if (argList.contains(OPT_OAUTH)) {
             if (argList.contains(OPT_STATUS)) {
@@ -105,7 +105,7 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setOrganizationDomain("mysoft.com");
     QCoreApplication::setApplicationName("tweeter");
     Helper helper;
-    QTimer::singleShot(0, &helper, SLOT(processArgs()));
+    QTimer::singleShot(0, &helper, &Helper::processArgs);
 
     return a.exec();
 }

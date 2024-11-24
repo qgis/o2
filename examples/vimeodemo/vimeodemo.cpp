@@ -35,11 +35,11 @@ VimeoDemo::VimeoDemo(QObject *parent) :
     store->setGroupKey("google");
     o2Vimeo_->setStore(store);
 
-    connect(o2Vimeo_, SIGNAL(linkedChanged()), this, SLOT(onLinkedChanged()));
-    connect(o2Vimeo_, SIGNAL(linkingFailed()), this, SIGNAL(linkingFailed()));
-    connect(o2Vimeo_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
-    connect(o2Vimeo_, SIGNAL(openBrowser(QUrl)), this, SLOT(onOpenBrowser(QUrl)));
-    connect(o2Vimeo_, SIGNAL(closeBrowser()), this, SLOT(onCloseBrowser()));
+    connect(o2Vimeo_, &O0BaseAuth::linkedChanged, this, &VimeoDemo::onLinkedChanged);
+    connect(o2Vimeo_, &O0BaseAuth::linkingFailed, this, &VimeoDemo::linkingFailed);
+    connect(o2Vimeo_, &O0BaseAuth::linkingSucceeded, this, &VimeoDemo::onLinkingSucceeded);
+    connect(o2Vimeo_, &O0BaseAuth::openBrowser, this, &VimeoDemo::onOpenBrowser);
+    connect(o2Vimeo_, &O0BaseAuth::closeBrowser, this, &VimeoDemo::onCloseBrowser);
 }
 
 void VimeoDemo::doOAuth(O2::GrantFlow grantFlowType) {

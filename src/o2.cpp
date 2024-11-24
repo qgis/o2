@@ -174,7 +174,7 @@ void O2::link() {
         if(replyServer() == nullptr) {
             O2ReplyServer * replyServer = new O2ReplyServer(this);
             connect(replyServer, SIGNAL(verificationReceived(QMap<QString,QString>)), this, SLOT(onVerificationReceived(QMap<QString,QString>)));
-            connect(replyServer, SIGNAL(serverClosed(bool)), this, SLOT(serverHasClosed(bool)));
+            connect(replyServer, &O2ReplyServer::serverClosed, this, &O2::serverHasClosed);
             setReplyServer(replyServer);
         }
     }
@@ -262,7 +262,11 @@ void O2::link() {
         tokenRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
         QNetworkReply *tokenReply = getManager()->post(tokenRequest, payload);
 
-        connect(tokenReply, SIGNAL(finished()), this, SLOT(onTokenReplyFinished()), Qt::QueuedConnection);
+        connect(tokenReply,
+                &QNetworkReply::finished,
+                this,
+                &O2::onTokenReplyFinished,
+                Qt::QueuedConnection);
 #if QT_VERSION < 0x051500
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
@@ -280,7 +284,11 @@ void O2::link() {
         deviceRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
         QNetworkReply *tokenReply = getManager()->post(deviceRequest, payload);
 
-        connect(tokenReply, SIGNAL(finished()), this, SLOT(onDeviceAuthReplyFinished()), Qt::QueuedConnection);
+        connect(tokenReply,
+                &QNetworkReply::finished,
+                this,
+                &O2::onDeviceAuthReplyFinished,
+                Qt::QueuedConnection);
 #if QT_VERSION < 0x051500
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
@@ -332,7 +340,11 @@ void O2::onVerificationReceived(const QMap<QString, QString> response) {
 
         QNetworkReply *tokenReply = getManager()->post(tokenRequest, data);
         timedReplies_.add(tokenReply);
-        connect(tokenReply, SIGNAL(finished()), this, SLOT(onTokenReplyFinished()), Qt::QueuedConnection);
+        connect(tokenReply,
+                &QNetworkReply::finished,
+                this,
+                &O2::onTokenReplyFinished,
+                Qt::QueuedConnection);
 #if QT_VERSION < 0x051500
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
@@ -504,7 +516,7 @@ void O2::startPollServer(const QVariantMap &params)
             pollServer->setInterval(interval);
     }
     connect(pollServer, SIGNAL(verificationReceived(QMap<QString,QString>)), this, SLOT(onVerificationReceived(QMap<QString,QString>)));
-    connect(pollServer, SIGNAL(serverClosed(bool)), this, SLOT(serverHasClosed(bool)));
+    connect(pollServer, &O2PollServer::serverClosed, this, &O2::serverHasClosed);
     setPollServer(pollServer);
     pollServer->startPolling();
 }
@@ -545,7 +557,11 @@ void O2::refresh() {
     QByteArray data = buildRequestBody(parameters);
     QNetworkReply *refreshReply = getManager()->post(refreshRequest, data);
     timedReplies_.add(refreshReply);
-    connect(refreshReply, SIGNAL(finished()), this, SLOT(onRefreshFinished()), Qt::QueuedConnection);
+    connect(refreshReply,
+            &QNetworkReply::finished,
+            this,
+            &O2::onRefreshFinished,
+            Qt::QueuedConnection);
 #if QT_VERSION < 0x051500
     connect(refreshReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRefreshError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else

@@ -65,7 +65,7 @@ void WebWindow::closeEvent(QCloseEvent *)
 void WebWindow::onCallbackCatched(const QString &inURLString)
 {
 	mCatchedOAuthURL = inURLString;
-	QTimer::singleShot(100, this, SLOT(onCallbackCatchedSafe()));
+    QTimer::singleShot(100, this, &WebWindow::onCallbackCatchedSafe);
 }
 
 void WebWindow::onCallbackCatchedSafe()

@@ -13,10 +13,16 @@ public:
 
 public slots:
     void run() {
-        connect(&demo_, SIGNAL(linkingFailed()), this, SLOT(onLinkingFailed()));
-        connect(&demo_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
-        connect(&demo_, SIGNAL(userPrincipalNameReceived()), this, SLOT(onUserPrincipalNameReceived()));
-        connect(&demo_, SIGNAL(userPrincipalNameFailed()), this, SLOT(onUserPrincipalNameFailed()));
+        connect(&demo_, &MsgraphDemo::linkingFailed, this, &Helper::onLinkingFailed);
+        connect(&demo_, &MsgraphDemo::linkingSucceeded, this, &Helper::onLinkingSucceeded);
+        connect(&demo_,
+                &MsgraphDemo::userPrincipalNameReceived,
+                this,
+                &Helper::onUserPrincipalNameReceived);
+        connect(&demo_,
+                &MsgraphDemo::userPrincipalNameFailed,
+                this,
+                &Helper::onUserPrincipalNameFailed);
 
         // Start OAuth
         demo_.doOAuth(O2::GrantFlowAuthorizationCode);
@@ -51,7 +57,7 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setOrganizationName("O2");
     QCoreApplication::setApplicationName("Msgraph Example");
     Helper helper;
-    QTimer::singleShot(0, &helper, SLOT(run()));
+    QTimer::singleShot(0, &helper, &Helper::run);
     return a.exec();
 }
 

@@ -34,11 +34,11 @@ FBDemo::FBDemo(QObject *parent) :
     store->setGroupKey("facebook");
     o2Facebook_->setStore(store);
 
-    connect(o2Facebook_, SIGNAL(linkedChanged()), this, SLOT(onLinkedChanged()));
-    connect(o2Facebook_, SIGNAL(linkingFailed()), this, SIGNAL(linkingFailed()));
-    connect(o2Facebook_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
-    connect(o2Facebook_, SIGNAL(openBrowser(QUrl)), this, SLOT(onOpenBrowser(QUrl)));
-    connect(o2Facebook_, SIGNAL(closeBrowser()), this, SLOT(onCloseBrowser()));
+    connect(o2Facebook_, &O2Facebook::linkedChanged, this, &FBDemo::onLinkedChanged);
+    connect(o2Facebook_, &O2Facebook::linkingFailed, this, &FBDemo::linkingFailed);
+    connect(o2Facebook_, &O2Facebook::linkingSucceeded, this, &FBDemo::onLinkingSucceeded);
+    connect(o2Facebook_, &O2Facebook::openBrowser, this, &FBDemo::onOpenBrowser);
+    connect(o2Facebook_, &O2Facebook::closeBrowser, this, &FBDemo::onCloseBrowser);
 }
 
 void FBDemo::doOAuth(O2::GrantFlow grantFlowType) {
@@ -60,7 +60,7 @@ void FBDemo::validateToken() {
     QNetworkRequest request = QNetworkRequest(QUrl(debugUrlStr));
     QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
     QNetworkReply *reply = mgr->get(request);
-    connect(reply, SIGNAL(finished()), this, SLOT(onFinished()));
+    connect(reply, &QNetworkReply::finished, this, &FBDemo::onFinished);
     qDebug() << "Validating user token. Please wait...";
 }
 

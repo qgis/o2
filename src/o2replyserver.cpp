@@ -17,15 +17,15 @@
 
 O2ReplyServer::O2ReplyServer(QObject *parent): QTcpServer(parent) {
     O0BaseAuth::log( QStringLiteral( "O2ReplyServer: Starting" ) );
-    connect(this, SIGNAL(newConnection()), this, SLOT(onIncomingConnection()));
+    connect(this, &QTcpServer::newConnection, this, &O2ReplyServer::onIncomingConnection);
     replyContent_ = "<HTML></HTML>";
 }
 
 void O2ReplyServer::onIncomingConnection() {
     O0BaseAuth::log( QStringLiteral( "O2ReplyServer::onIncomingConnection: Receiving..." ) );
     QTcpSocket *socket = nextPendingConnection();
-    connect(socket, SIGNAL(readyRead()), this, SLOT(onBytesReady()), Qt::UniqueConnection);
-    connect(socket, SIGNAL(disconnected()), socket, SLOT(deleteLater()));
+    connect(socket, &QIODevice::readyRead, this, &O2ReplyServer::onBytesReady, Qt::UniqueConnection);
+    connect(socket, &QAbstractSocket::disconnected, socket, &QObject::deleteLater);
 
     // Wait for a bit *after* first response, then close server if no useable data has arrived
     // Helps with implicit flow, where a URL fragment may need processed by local user-agent and

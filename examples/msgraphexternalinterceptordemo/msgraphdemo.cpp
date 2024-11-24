@@ -34,11 +34,11 @@ MsgraphDemo::MsgraphDemo(QObject *parent) :
     store->setGroupKey("msgraph");
     o2Msgraph_->setStore(store);
 
-    connect(o2Msgraph_, SIGNAL(linkedChanged()), this, SLOT(onLinkedChanged()));
-    connect(o2Msgraph_, SIGNAL(linkingFailed()), this, SIGNAL(linkingFailed()));
-    connect(o2Msgraph_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
-    connect(o2Msgraph_, SIGNAL(openBrowser(QUrl)), this, SLOT(onOpenBrowser(QUrl)));
-    connect(o2Msgraph_, SIGNAL(closeBrowser()), this, SLOT(onCloseBrowser()));
+    connect(o2Msgraph_, &O0BaseAuth::linkedChanged, this, &MsgraphDemo::onLinkedChanged);
+    connect(o2Msgraph_, &O0BaseAuth::linkingFailed, this, &MsgraphDemo::linkingFailed);
+    connect(o2Msgraph_, &O0BaseAuth::linkingSucceeded, this, &MsgraphDemo::onLinkingSucceeded);
+    connect(o2Msgraph_, &O0BaseAuth::openBrowser, this, &MsgraphDemo::onOpenBrowser);
+    connect(o2Msgraph_, &O0BaseAuth::closeBrowser, this, &MsgraphDemo::onCloseBrowser);
 }
 
 void MsgraphDemo::doOAuth(O2::GrantFlow grantFlowType) {
@@ -71,8 +71,14 @@ void MsgraphDemo::getUserPrincipalName() {
 void MsgraphDemo::onOpenBrowser(const QUrl &url) {
     if (authDialog == Q_NULLPTR) {
         authDialog = new WebWindow(QSize(650, 600), url, MSGRAPH_REDIRECT_URI, false);
-        QObject::connect(authDialog, SIGNAL(callbackCalled(const QString &)), this, SLOT(onAuthWindowCallbackCalled(const QString &)));
-        QObject::connect(authDialog, SIGNAL(windowClosed()), this, SLOT(onAuthWindowClosed()));
+        QObject::connect(authDialog,
+                         &WebWindow::callbackCalled,
+                         this,
+                         &MsgraphDemo::onAuthWindowCallbackCalled);
+        QObject::connect(authDialog,
+                         &WebWindow::windowClosed,
+                         this,
+                         &MsgraphDemo::onAuthWindowClosed);
         authDialog->exec();
     }
 }

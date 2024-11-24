@@ -15,10 +15,10 @@ public:
 
 public slots:
     void run() {
-        connect(&ytdemo_, SIGNAL(linkingFailed()), this, SLOT(onLinkingFailed()));
-        connect(&ytdemo_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
-        connect(&ytdemo_, SIGNAL(channelInfoReceived()), this, SLOT(onChannelInfoReceived()));
-        connect(&ytdemo_, SIGNAL(channelInfoFailed()), this, SLOT(onChannelInfoFailed()));
+        connect(&ytdemo_, &YTDemo::linkingFailed, this, &Helper::onLinkingFailed);
+        connect(&ytdemo_, &YTDemo::linkingSucceeded, this, &Helper::onLinkingSucceeded);
+        connect(&ytdemo_, &YTDemo::channelInfoReceived, this, &Helper::onChannelInfoReceived);
+        connect(&ytdemo_, &YTDemo::channelInfoFailed, this, &Helper::onChannelInfoFailed);
 
         ytdemo_.doOAuth(O2::GrantFlowAuthorizationCode);
     }
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setOrganizationName("O2");
     QCoreApplication::setApplicationName("YouTube Test");
     Helper helper;
-    QTimer::singleShot(0, &helper, SLOT(run()));
+    QTimer::singleShot(0, &helper, &Helper::run);
     return a.exec();
 }
 

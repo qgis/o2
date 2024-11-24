@@ -28,8 +28,8 @@ public slots:
         QByteArray help = QString(USAGE).arg(OPT_OAUTH_CODE,
                                              OPT_VALIDATE_TOKEN).toLatin1();
         const char* helpText = help.constData();
-        connect(&fbdemo_, SIGNAL(linkingFailed()), this, SLOT(onLinkingFailed()));
-        connect(&fbdemo_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
+        connect(&fbdemo_, &FBDemo::linkingFailed, this, &Helper::onLinkingFailed);
+        connect(&fbdemo_, &FBDemo::linkingSucceeded, this, &Helper::onLinkingSucceeded);
         if (argList.contains(OPT_OAUTH_CODE)) {
             // Start OAuth
             fbdemo_.doOAuth(O2::GrantFlowAuthorizationCode);
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setOrganizationDomain("mysoft.com");
     QCoreApplication::setApplicationName("facebookdemo");
     Helper helper;
-    QTimer::singleShot(0, &helper, SLOT(processArgs()));
+    QTimer::singleShot(0, &helper, &Helper::processArgs);
     return a.exec();
 }
 

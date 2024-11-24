@@ -29,11 +29,11 @@ void Tweeter::doOAuth() {
     o1Twitter_->setStore(store);
 
     // Connect signals
-    connect(o1Twitter_, SIGNAL(linkedChanged()), this, SLOT(onLinkedChanged()));
-    connect(o1Twitter_, SIGNAL(linkingFailed()), this, SIGNAL(linkingFailed()));
-    connect(o1Twitter_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
-    connect(o1Twitter_, SIGNAL(openBrowser(QUrl)), this, SLOT(onOpenBrowser(QUrl)));
-    connect(o1Twitter_, SIGNAL(closeBrowser()), this, SLOT(onCloseBrowser()));
+    connect(o1Twitter_, &O0BaseAuth::linkedChanged, this, &Tweeter::onLinkedChanged);
+    connect(o1Twitter_, &O0BaseAuth::linkingFailed, this, &Tweeter::linkingFailed);
+    connect(o1Twitter_, &O0BaseAuth::linkingSucceeded, this, &Tweeter::onLinkingSucceeded);
+    connect(o1Twitter_, &O0BaseAuth::openBrowser, this, &Tweeter::onOpenBrowser);
+    connect(o1Twitter_, &O0BaseAuth::closeBrowser, this, &Tweeter::onCloseBrowser);
 
     qDebug() << "Starting OAuth...";
     o1Twitter_->unlink();  // For the sake of this demo
@@ -54,11 +54,11 @@ void Tweeter::doXAuth(const QString &username, const QString &password) {
     store->setGroupKey("twitter");
     oxTwitter_->setStore(store);
 
-    connect(oxTwitter_, SIGNAL(linkedChanged()), this, SLOT(onLinkedChanged()));
-    connect(oxTwitter_, SIGNAL(linkingFailed()), this, SIGNAL(linkingFailed()));
-    connect(oxTwitter_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
-    connect(oxTwitter_, SIGNAL(openBrowser(QUrl)), this, SLOT(onOpenBrowser(QUrl)));
-    connect(oxTwitter_, SIGNAL(closeBrowser()), this, SLOT(onCloseBrowser()));
+    connect(oxTwitter_, &O0BaseAuth::linkedChanged, this, &Tweeter::onLinkedChanged);
+    connect(oxTwitter_, &O0BaseAuth::linkingFailed, this, &Tweeter::linkingFailed);
+    connect(oxTwitter_, &O0BaseAuth::linkingSucceeded, this, &Tweeter::onLinkingSucceeded);
+    connect(oxTwitter_, &O0BaseAuth::openBrowser, this, &Tweeter::onOpenBrowser);
+    connect(oxTwitter_, &O0BaseAuth::closeBrowser, this, &Tweeter::onCloseBrowser);
 
     qDebug() << "Starting XAuth...";
     qDebug() << "Username:" << username << "Password:" << password;
@@ -92,7 +92,7 @@ void Tweeter::postStatusUpdate(const QString &message) {
     request.setHeader(QNetworkRequest::ContentTypeHeader, O2_MIME_TYPE_XFORM);
 
     QNetworkReply *reply = requestor->post(request, reqParams, postData);
-    connect(reply, SIGNAL(finished()), this, SLOT(tweetReplyDone()));
+    connect(reply, &QNetworkReply::finished, this, &Tweeter::tweetReplyDone);
 }
 
 void Tweeter::onOpenBrowser(const QUrl &url) {

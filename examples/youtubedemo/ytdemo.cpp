@@ -34,11 +34,11 @@ YTDemo::YTDemo(QObject *parent) :
     store->setGroupKey("google");
     o2Google_->setStore(store);
 
-    connect(o2Google_, SIGNAL(linkedChanged()), this, SLOT(onLinkedChanged()));
-    connect(o2Google_, SIGNAL(linkingFailed()), this, SIGNAL(linkingFailed()));
-    connect(o2Google_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
-    connect(o2Google_, SIGNAL(openBrowser(QUrl)), this, SLOT(onOpenBrowser(QUrl)));
-    connect(o2Google_, SIGNAL(closeBrowser()), this, SLOT(onCloseBrowser()));
+    connect(o2Google_, &O0BaseAuth::linkedChanged, this, &YTDemo::onLinkedChanged);
+    connect(o2Google_, &O0BaseAuth::linkingFailed, this, &YTDemo::linkingFailed);
+    connect(o2Google_, &O0BaseAuth::linkingSucceeded, this, &YTDemo::onLinkingSucceeded);
+    connect(o2Google_, &O0BaseAuth::openBrowser, this, &YTDemo::onOpenBrowser);
+    connect(o2Google_, &O0BaseAuth::closeBrowser, this, &YTDemo::onCloseBrowser);
 }
 
 void YTDemo::doOAuth(O2::GrantFlow grantFlowType) {

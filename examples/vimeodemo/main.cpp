@@ -18,10 +18,10 @@ public:
 
 public slots:
     void run() {
-        connect(&demo_, SIGNAL(linkingFailed()), this, SLOT(onLinkingFailed()));
-        connect(&demo_, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSucceeded()));
-        connect(&demo_, SIGNAL(userNameReceived()), this, SLOT(onUserNameReceived()));
-        connect(&demo_, SIGNAL(userNameFailed()), this, SLOT(onUserNameFailed()));
+        connect(&demo_, &VimeoDemo::linkingFailed, this, &Helper::onLinkingFailed);
+        connect(&demo_, &VimeoDemo::linkingSucceeded, this, &Helper::onLinkingSucceeded);
+        connect(&demo_, &VimeoDemo::userNameReceived, this, &Helper::onUserNameReceived);
+        connect(&demo_, &VimeoDemo::userNameFailed, this, &Helper::onUserNameFailed);
 
         demo_.doOAuth(O2::GrantFlowAuthorizationCode);
     }
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setOrganizationName("O2");
     QCoreApplication::setApplicationName("Vimeo Test");
     Helper helper;
-    QTimer::singleShot(0, &helper, SLOT(run()));
+    QTimer::singleShot(0, &helper, &Helper::run);
     return a.exec();
 }
 

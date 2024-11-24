@@ -84,7 +84,11 @@ void O2Skydrive::redirected(const QUrl &url) {
         QByteArray data = buildRequestBody(parameters);
         QNetworkReply *tokenReply = manager_->post(tokenRequest, data);
         timedReplies_.add(tokenReply);
-        connect(tokenReply, SIGNAL(finished()), this, SLOT(onTokenReplyFinished()), Qt::QueuedConnection);
+        connect(tokenReply,
+                &QNetworkReply::finished,
+                this,
+                &O2Skydrive::onTokenReplyFinished,
+                Qt::QueuedConnection);
 #if QT_VERSION < 0x051500
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
