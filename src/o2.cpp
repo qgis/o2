@@ -173,7 +173,7 @@ void O2::link() {
     if(!useExternalWebInterceptor_) {
         if(replyServer() == nullptr) {
             O2ReplyServer * replyServer = new O2ReplyServer(this);
-            connect(replyServer, SIGNAL(verificationReceived(QMap<QString,QString>)), this, SLOT(onVerificationReceived(QMap<QString,QString>)));
+            connect(replyServer, &O2ReplyServer::verificationReceived, this, &O2::onVerificationReceived);
             connect(replyServer, &O2ReplyServer::serverClosed, this, &O2::serverHasClosed);
             setReplyServer(replyServer);
         }
@@ -270,7 +270,7 @@ void O2::link() {
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-        connect(tokenReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+        connect(tokenReply, &QNetworkReply::errorOccurred, this, &O2::onTokenReplyError, Qt::QueuedConnection);
 #endif
     }
     else if (grantFlow_ == GrantFlowDevice) {
@@ -292,7 +292,7 @@ void O2::link() {
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-        connect(tokenReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+        connect(tokenReply, &QNetworkReply::errorOccurred, this, &O2::onTokenReplyError, Qt::QueuedConnection);
 #endif
     }
 }
@@ -348,7 +348,7 @@ void O2::onVerificationReceived(const QMap<QString, QString> response) {
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
         connect(tokenReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-        connect(tokenReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onTokenReplyError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+        connect(tokenReply, &QNetworkReply::errorOccurred, this, &O2::onTokenReplyError, Qt::QueuedConnection);
 #endif
     } else if (grantFlow_ == GrantFlowImplicit || grantFlow_ == GrantFlowDevice) {
       // Check for mandatory tokens
@@ -515,7 +515,7 @@ void O2::startPollServer(const QVariantMap &params)
         if (ok)
             pollServer->setInterval(interval);
     }
-    connect(pollServer, SIGNAL(verificationReceived(QMap<QString,QString>)), this, SLOT(onVerificationReceived(QMap<QString,QString>)));
+    connect(pollServer, &O2PollServer::verificationReceived, this, &O2::onVerificationReceived);
     connect(pollServer, &O2PollServer::serverClosed, this, &O2::serverHasClosed);
     setPollServer(pollServer);
     pollServer->startPolling();
@@ -565,7 +565,7 @@ void O2::refresh() {
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(refreshReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onRefreshError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
 #else
-    connect(refreshReply, SIGNAL(errorOccurred(QNetworkReply::NetworkError)), this, SLOT(onRefreshError(QNetworkReply::NetworkError)), Qt::QueuedConnection);
+    connect(refreshReply, &QNetworkReply::errorOccurred, this, &O2::onRefreshError, Qt::QueuedConnection);
 #endif
 }
 
