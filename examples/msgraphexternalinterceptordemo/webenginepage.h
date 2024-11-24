@@ -13,12 +13,12 @@ public:
 	
     WebEnginePage(QWebEngineProfile *inProfile, const QString &inRedirectURLString) : QWebEnginePage(inProfile), mRedirectURLString(inRedirectURLString) { }
 	
-    virtual ~WebEnginePage();
+    ~WebEnginePage() override;
 
-    bool acceptNavigationRequest(const QUrl & url, QWebEnginePage::NavigationType type, bool isMainFrame);
+    bool acceptNavigationRequest(const QUrl & url, QWebEnginePage::NavigationType type, bool isMainFrame) override;
     
 protected:
-	QWebEnginePage *createWindow(WebWindowType type);
+    QWebEnginePage *createWindow(WebWindowType type) override;
 
 signals:
     void callbackCatched(const QString &inURLString);

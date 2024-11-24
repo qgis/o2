@@ -12,7 +12,7 @@ public:
     explicit O2Skydrive(QObject *parent = nullptr);
 
 public Q_SLOTS:
-    Q_INVOKABLE void link();
+    Q_INVOKABLE void link() override;
     Q_INVOKABLE virtual void redirected(const QUrl &url);
 };
 

@@ -14,14 +14,14 @@ class WebWindow : public QDialog
 
 public:
     explicit WebWindow(QSize inWindowSize, QUrl inLoginURL, QString inRedirectURLString, bool inAutoclose);
-    ~WebWindow();
+    ~WebWindow() override;
 
     QString resultStr;
     
     QWebEnginePage *GetWebEnginePage() { return mWebEnginePage; }
 
 protected:
-    void closeEvent(QCloseEvent *);
+    void closeEvent(QCloseEvent *) override;
 
 signals:
     void windowClosed();

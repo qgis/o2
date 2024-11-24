@@ -20,7 +20,7 @@ class O0_EXPORT O2Requestor: public QObject {
 
 public:
     explicit O2Requestor(QNetworkAccessManager *manager, O2 *authenticator, QObject *parent = nullptr);
-    ~O2Requestor();
+    ~O2Requestor() override;
     
     
     /// Some services require the access token to be sent as a Authentication HTTP header

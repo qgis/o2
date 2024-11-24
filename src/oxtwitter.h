@@ -23,7 +23,7 @@ public:
 
 public Q_SLOTS:
     /// Authenticate.
-    Q_INVOKABLE virtual void link();
+    Q_INVOKABLE void link() override;
 
 Q_SIGNALS:
     void usernameChanged();

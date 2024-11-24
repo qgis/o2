@@ -12,10 +12,10 @@ public:
     explicit O2Facebook(QObject *parent = nullptr);
 
 public Q_SLOTS:
-    void onVerificationReceived(QMap<QString, QString>);
+    void onVerificationReceived(QMap<QString, QString>) override;
 
 protected Q_SLOTS:
-    virtual void onTokenReplyFinished();
+    void onTokenReplyFinished() override;
 };
 
 #endif // O2FACEBOOK_H
