@@ -16,9 +16,7 @@ class O0_EXPORT O2: public O0BaseAuth
 {
     Q_OBJECT
 public:
-    Q_ENUMS(GrantFlow)
 
-public:
     /// Authorization flow types.
     enum GrantFlow {
         GrantFlowAuthorizationCode, ///< @see http://tools.ietf.org/html/draft-ietf-oauth-v2-15#section-4.1
@@ -27,6 +25,7 @@ public:
         GrantFlowPkce, ///< @see https://www.rfc-editor.org/rfc/rfc7636
         GrantFlowDevice ///< @see https://tools.ietf.org/html/rfc8628#section-1
     };
+    Q_ENUM(GrantFlow)
 
     /// Authorization flow.
     Q_PROPERTY(GrantFlow grantFlow READ grantFlow WRITE setGrantFlow NOTIFY grantFlowChanged)

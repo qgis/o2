@@ -27,20 +27,20 @@
 /// @endcode
 class O0_EXPORT O1SmugMug: public O1 {
     Q_OBJECT
-    Q_ENUMS(Access)
-    Q_ENUMS(Permissions)
 
 public:
     enum Access {
         AccessPublic,
         AccessFull
     };
+    Q_ENUM(Access)
 
     enum Permissions {
         PermissionsRead,
         PermissionsAdd,
         PermissionsModify
     };
+    Q_ENUM(Permissions)
 
     Q_INVOKABLE void initAuthorizationUrl(Access access, Permissions permissions);
 
