@@ -22,6 +22,7 @@ echo "Checking ${SCRIPT_DIR}/../src ..."
 cppcheck --inline-suppr \
          --template='{file}:{line},{severity},{id},{message}' \
          --enable=all --inconclusive --std=c++11 \
+         -DQ_PROPERTY = \
          -j $(nproc) \
          ${SCRIPT_DIR}/../src \
          >>${LOG_FILE} 2>&1 &
