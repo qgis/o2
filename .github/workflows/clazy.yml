@@ -61,6 +61,11 @@ jobs:
           install-stable: true
           database: build
 
+      - name: Dump results
+        run: |
+          echo "Warnings count: ${{ steps.clazy.outputs.warnings-count }}"
+          echo "Errors count: ${{ steps.clazy.outputs.errors-count }}"
+
       - name: Fail if warnings or errors exist
-        if: steps.clazy.outputs.warnings-count > 0 || steps.clazy.outputs.errors-count > 0
+        if: ${{ toNumber(steps.clazy.outputs.warnings-count) > 0 || toNumber(steps.clazy.outputs.errors-count) > 0 }}
         run: exit 1
