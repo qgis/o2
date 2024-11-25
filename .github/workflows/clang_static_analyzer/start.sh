@@ -22,7 +22,25 @@ export MAKEFLAGS="-j ${NPROC}"
 mkdir csa_build
 cd csa_build
 
-scan-build -o scanbuildoutput -plist -v cmake ..
+scan-build -o scanbuildoutput -plist -v cmake -Do2_BUILD_EXAMPLES:BOOL=ON \
+    -Do2_SHOW_TRACE:BOOL=ON \
+    -Do2_WITH_DROPBOX:BOOL=ON \
+    -Do2_WITH_FACEBOOK:BOOL=ON \
+    -Do2_WITH_FLICKR:BOOL=ON \
+    -Do2_WITH_GOOGLE:BOOL=ON \
+    -Do2_WITH_HUBIC:BOOL=ON \
+    -Do2_WITH_KEYCHAIN:BOOL=ON \
+    -Do2_WITH_MSGRAPH:BOOL=ON \
+    -Do2_WITH_OAUTH1:BOOL=ON \
+    -Do2_WITH_QT5:BOOL=ON \
+    -Do2_WITH_SKYDRIVE:BOOL=ON \
+    -Do2_WITH_SMUGMUG:BOOL=ON \
+    -Do2_WITH_SPOTIFY:BOOL=ON \
+    -Do2_WITH_SURVEYMONKEY:BOOL=ON \
+    -Do2_WITH_TWITTER:BOOL=ON \
+    -Do2_WITH_UBER:BOOL=ON \
+    -Do2_WITH_VIMEO:BOOL=ON \
+    ..
 
 scan-build -o scanbuildoutput -sarif -v -enable-checker alpha.unix.cstring.OutOfBounds,alpha.unix.cstring.BufferOverlap,optin.cplusplus.VirtualCall,optin.cplusplus.UninitializedObject make
 
