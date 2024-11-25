@@ -51,9 +51,11 @@ jobs:
           -Do2_WITH_VIMEO:BOOL=ON \
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
           ..
+          cd ..
 
       - name: Clazy action
         uses: MinyazevR/clazy-standalone-action@v0.2.1
         with:
           checks: 'level0,level1,old-style-connect'
           install-stable: true
+          database: build
