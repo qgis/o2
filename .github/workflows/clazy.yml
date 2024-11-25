@@ -57,4 +57,3 @@ jobs:
         with:
           checks: 'level0,level1,old-style-connect'
           install-stable: true
-          database: compile_commands.json
