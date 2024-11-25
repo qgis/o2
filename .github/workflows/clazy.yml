@@ -57,7 +57,7 @@ jobs:
         id: clazy
         uses: ./.github/actions/clazy
         with:
-          checks: 'level0,level1,old-style-connect'
+          checks: 'level0,level1,old-style-connect,no-overloaded-signal'
           install-stable: true
           database: build
 
