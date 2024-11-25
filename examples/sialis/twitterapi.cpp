@@ -23,6 +23,7 @@ O1Twitter *TwitterApi::authenticator() const {
 }
 void TwitterApi::setAuthenticator(O1Twitter *v) {
     authenticator_ = v;
+    Q_EMIT authenticatorChanged();
 }
 
 void TwitterApi::requestTweets() {
