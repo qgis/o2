@@ -251,12 +251,15 @@ void O2Requestor::onRefreshFinished(QNetworkReply::NetworkError error) {
         O0BaseAuth::log( QStringLiteral("O2Requestor::onRefreshFinished: No pending request"), O0BaseAuth::LogLevel::Warning );
         return;
     }
+// Suppress warning: Potential leak of memory in qtimer.h [clang-analyzer-cplusplus.NewDeleteLeaks]
+#ifndef __clang_analyzer__
     if (QNetworkReply::NoError == error) {
         QTimer::singleShot(100, this, &O2Requestor::retry);
     } else {
         error_ = error;
         QTimer::singleShot(10, this, &O2Requestor::finish);
     }
+#endif
 }
 
 void O2Requestor::onRequestFinished() {
