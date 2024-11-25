@@ -26,7 +26,7 @@ WebWindow::WebWindow(QSize inWindowSize, QUrl inLoginURL, QString inRedirectURLS
     mWebEngineProfile = new QWebEngineProfile();
 	
     mWebEnginePage = new WebEnginePage(mWebEngineProfile, inRedirectURLString);
-    QObject::connect(mWebEnginePage, SIGNAL(callbackCatched(const QString &)), this, SLOT(onCallbackCatched(const QString &)));
+    QObject::connect(qobject_cast<WebEnginePage*>(mWebEnginePage), &WebEnginePage::callbackCatched, this, &WebWindow::onCallbackCatched);
 	
 	mWebView->setPage(mWebEnginePage);
 	
@@ -59,13 +59,13 @@ WebWindow::~WebWindow()
 
 void WebWindow::closeEvent(QCloseEvent *)
 {
-	emit (windowClosed());
+    emit windowClosed();
 }
 
 void WebWindow::onCallbackCatched(const QString &inURLString)
 {
 	mCatchedOAuthURL = inURLString;
-	QTimer::singleShot(100, this, SLOT(onCallbackCatchedSafe()));
+    QTimer::singleShot(100, this, &WebWindow::onCallbackCatchedSafe);
 }
 
 void WebWindow::onCallbackCatchedSafe()

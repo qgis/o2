@@ -5,8 +5,6 @@
 
 #include "ytdemo.h"
 
-const char OPT_OAUTH_CODE[] = "-o";
-
 class Helper : public QObject {
     Q_OBJECT
 
@@ -45,7 +43,6 @@ public slots:
 
 private:
     YTDemo ytdemo_;
-    bool waitForMsg_{false};
     QString msg_;
 };
 

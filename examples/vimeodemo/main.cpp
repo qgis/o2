@@ -8,8 +8,6 @@
 
 #include "vimeodemo.h"
 
-const char OPT_OAUTH_CODE[] = "-o";
-
 class Helper : public QObject {
     Q_OBJECT
 
@@ -48,7 +46,6 @@ public slots:
 
 private:
     VimeoDemo demo_;
-    bool waitForMsg_{false};
     QString msg_;
 };
 
