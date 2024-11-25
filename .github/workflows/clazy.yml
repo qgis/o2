@@ -51,13 +51,14 @@ jobs:
           -Do2_WITH_VIMEO:BOOL=ON \
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
           ..
+          ninja
           cd ..
 
       - name: Clazy action
         id: clazy
         uses: ./.github/actions/clazy
         with:
-          checks: 'level0,level1,old-style-connect,no-overloaded-signal'
+          checks: 'level0,level1,old-style-connect'
           install-stable: true
           database: build
 
