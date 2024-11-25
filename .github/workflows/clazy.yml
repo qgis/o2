@@ -61,7 +61,6 @@ jobs:
           install-stable: true
           database: build
 
-      - name: Exit if error
-        if: ${{steps.clazy.outputs.warnings-count > 0 }}
-        shell: bash
+      - name: Fail if warnings or errors exist
+        if: steps.clazy.outputs.warnings-count > 0 || steps.clazy.outputs.errors-count > 0
         run: exit 1
