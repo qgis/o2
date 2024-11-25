@@ -54,9 +54,14 @@ jobs:
           cd ..
 
       - name: Clazy action
+        id: clazy
         uses: MinyazevR/clazy-standalone-action@v0.2.1
         with:
           checks: 'level0,level1,old-style-connect'
-          warnings_as_errors: 'level0,level1,old-style-connect'
           install-stable: true
           database: build
+
+      - name: Exit if error
+        if: ${{steps.clazy.outputs.warnings-count > 0 }}
+        shell: bash
+        run: exit 1
