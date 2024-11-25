@@ -35,8 +35,8 @@ void TwitterApi::requestTweets() {
     QUrl url = QUrl("https://api.twitter.com/1.1/statuses/home_timeline.json");
     QNetworkRequest request(url);
     QNetworkReply *reply = requestor->get(request, QList<O0RequestParameter>());
-    connect(reply, SIGNAL(finished()), this, SLOT(tweetsReceived()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(requestFailed(QNetworkReply::NetworkError)));
+    connect(reply, &QNetworkReply::finished, this, &TwitterApi::tweetsReceived);
+    connect(reply, &QNetworkReply::errorOccurred, this, &TwitterApi::requestFailed);
 }
 
 void TwitterApi::tweetsReceived() {
