@@ -50,6 +50,7 @@ jobs:
           -Do2_WITH_UBER:BOOL=ON \
           -Do2_WITH_VIMEO:BOOL=ON \
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+          -DCMAKE_CXX_FLAGS="-Wno-macro-redefined"
           ..
           ninja
           cd ..
