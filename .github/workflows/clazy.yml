@@ -55,7 +55,7 @@ jobs:
 
       - name: Clazy action
         id: clazy
-        uses: MinyazevR/clazy-standalone-action@v0.2.1
+        uses: ./.github/actions/clazy
         with:
           checks: 'level0,level1,old-style-connect'
           install-stable: true
