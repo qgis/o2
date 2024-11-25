@@ -61,6 +61,15 @@ jobs:
           install-stable: true
           database: build
 
+      - name: Check clazy output
+        run: |
+          echo "Full environment:"
+          env
+          echo "GitHub context:"
+          echo "${{ toJSON(github) }}"
+          echo "Step context:"
+          echo "${{ toJSON(steps.clazy) }}"
+
       - name: Dump results
         run: |
           echo "Warnings count: ${{ steps.clazy.outputs.warnings-count }}"
