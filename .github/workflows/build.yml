@@ -31,6 +31,7 @@ jobs:
           cd build
           cmake -GNinja \
           -Do2_BUILD_EXAMPLES:BOOL=ON \
+          -Do2_WITH_TESTS=ON \
           -Do2_SHOW_TRACE:BOOL=ON \
           -Do2_WITH_DROPBOX:BOOL=ON \
           -Do2_WITH_FACEBOOK:BOOL=ON \
@@ -50,4 +51,9 @@ jobs:
           -Do2_WITH_VIMEO:BOOL=ON \
           ..
           ninja
+
+      - name: Run Tests
+        run: |
+          cd build
+          ctest --output-on-failure --no-compress-output -T Test
 

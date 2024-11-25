@@ -186,6 +186,8 @@ protected:
     O2ReplyList timedReplies_;
     GrantFlow grantFlow_;
     QString grantType_;
+
+    friend class TestO2;
 };
 
 #endif // O2_H

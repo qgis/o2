@@ -166,6 +166,9 @@ protected:
 private:
     O2ReplyServer *replyServer_{nullptr};
     O2PollServer *pollServer_{nullptr};
+
+    friend class TestBaseAuth;
+    friend class TestO2;
 };
 
 #endif // O0BASEAUTH
