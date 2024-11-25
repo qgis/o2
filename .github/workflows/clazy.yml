@@ -67,5 +67,5 @@ jobs:
           echo "Errors count: ${{ steps.clazy.outputs.errors-count }}"
 
       - name: Fail if warnings or errors exist
-        if: ${{ toNumber(steps.clazy.outputs.warnings-count) > 0 || toNumber(steps.clazy.outputs.errors-count) > 0 }}
+        if: ${{ fromJSON(steps.clazy.outputs.warnings-count) > 0 || fromJSON(steps.clazy.outputs.errors-count) > 0 }}
         run: exit 1
