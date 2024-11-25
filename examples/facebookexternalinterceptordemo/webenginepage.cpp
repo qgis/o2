@@ -37,9 +37,9 @@ QWebEnginePage *WebEnginePage::createWindow(WebWindowType type)
 		case QWebEnginePage::WebDialog:
 		{
             WebWindow *webViewDialog = new WebWindow(QSize(600, 500), QUrl(), mRedirectURLString, false);
-            QObject::connect(webViewDialog, SIGNAL(callbackCalled(const QString &)), this, SLOT(onAuthWindowCallbackCalled(const QString &)));
-            QObject::connect(webViewDialog, SIGNAL(windowClosed()), this, SLOT(onCreatedWindowClosed()));
-            QObject::connect(webViewDialog->GetWebEnginePage(), SIGNAL(windowCloseRequested()), this, SLOT(onWindowCloseRequested()));
+            connect(webViewDialog, &WebWindow::callbackCalled, this, &WebEnginePage::onAuthWindowCallbackCalled);
+            connect(webViewDialog, &WebWindow::windowClosed, this, &WebEnginePage::onCreatedWindowClosed);
+            connect(webViewDialog->GetWebEnginePage(), &QWebEnginePage::windowCloseRequested, this, &WebEnginePage::onWindowCloseRequested);
 			mCreatedWindows.push_back(webViewDialog);
 			webViewDialog->open();
 			return webViewDialog->GetWebEnginePage();

@@ -19,7 +19,7 @@ public:
     TweetModel *tweetModel() ;
 
     /// OAuth authenticator
-    Q_PROPERTY(O1Twitter *authenticator READ authenticator WRITE setAuthenticator)
+    Q_PROPERTY(O1Twitter *authenticator READ authenticator WRITE setAuthenticator NOTIFY authenticatorChanged)
     O1Twitter *authenticator() const;
     void setAuthenticator(O1Twitter *v) ;
 
@@ -31,6 +31,7 @@ public slots:
 
 signals:
     void tweetModelChanged();
+    void authenticatorChanged();
 
 protected:
     O1Twitter *authenticator_;
