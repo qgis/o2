@@ -61,6 +61,13 @@ jobs:
           install-stable: true
           database: build
 
+      - name: Check debug output
+        run: |
+          echo "Debug log contents:"
+          cat /tmp/clazy-debug.log
+          echo "GITHUB_OUTPUT contents:"
+          cat $GITHUB_OUTPUT
+
       - name: Check clazy output
         run: |
           echo "Full environment:"
