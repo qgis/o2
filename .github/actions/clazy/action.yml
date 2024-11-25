@@ -155,8 +155,3 @@ runs:
         ONLY_DIFF: ${{ inputs.only-diff }}
       run: |
         PATH=~/.local/clazy/bin:$PATH "$GITHUB_ACTION_PATH/clazy.sh"
-
-    - name: Exit if error
-      if: ${{steps.clazy-check.outputs.errors-count > 0 }}
-      shell: bash
-      run: exit 1

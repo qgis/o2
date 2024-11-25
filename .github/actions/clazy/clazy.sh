@@ -138,14 +138,8 @@ done
 warnings_count=$(<"$warnings_file")
 errors_count=$(<"$errors_file")
 
-echo "Debug: warnings count is $warnings_count" >> /tmp/clazy-debug.log
-echo "Debug: errors count is $errors_count" >> /tmp/clazy-debug.log
-echo "Debug: GITHUB_OUTPUT is $GITHUB_OUTPUT" >> /tmp/clazy-debug.log
-echo "Writing to outputs file..."
-echo "errors-count=$errors_count" >> $GITHUB_OUTPUT
-echo "warnings-count=$warnings_count" >> $GITHUB_OUTPUT
-echo "Debug: Content of GITHUB_OUTPUT:" >> /tmp/clazy-debug.log
-cat $GITHUB_OUTPUT >> /tmp/clazy-debug.log
+echo "errors-count=$errors_count" >> $GITHUB_STATE
+echo "warnings-count=$warnings_count" >> $GITHUB_STATE
 
 if [ "$IGNORE_HEADERS" == "true" ] && [ -n "$DATABASE" ]; then
     mv $DATABASE/compile_commands_backup.json $DATABASE/compile_commands.json

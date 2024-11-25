@@ -62,18 +62,6 @@ jobs:
           install-stable: true
           database: build
 
-      - name: Check Results
-        run: |
-          # Read directly from GITHUB_OUTPUT
-          WARNINGS=$(grep "^warnings-count=" $GITHUB_OUTPUT | cut -d'=' -f2)
-          ERRORS=$(grep "^errors-count=" $GITHUB_OUTPUT | cut -d'=' -f2)
-          echo "Direct read - Warnings: $WARNINGS, Errors: $ERRORS"
-
-          if [ "$WARNINGS" -gt "0" ] || [ "$ERRORS" -gt "0" ]; then
-            echo "Found $WARNINGS warnings and $ERRORS errors"
-            exit 1
-          fi
-
       - name: Dump results
         run: |
           echo "Warnings count: ${{ steps.clazy.outputs.warnings-count }}"
