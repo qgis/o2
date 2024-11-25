@@ -61,22 +61,11 @@ jobs:
           checks: 'level0,level1,old-style-connect'
           install-stable: true
           database: build
-
-      - name: Check debug output
-        run: |
-          echo "Debug log contents:"
-          cat /tmp/clazy-debug.log
-          echo "GITHUB_OUTPUT contents:"
-          cat $GITHUB_OUTPUT
-
-      - name: Check clazy output
-        run: |
-          echo "Full environment:"
-          env
-          echo "GitHub context:"
-          echo "${{ toJSON(github) }}"
-          echo "Step context:"
-          echo "${{ toJSON(steps.clazy) }}"
+        outputs:
+          warnings-count:
+            description: 'Total warnings count'
+          errors-count:
+            description: 'Total warnings count'
 
       - name: Dump results
         run: |
