@@ -162,7 +162,7 @@ O2PollServer *O0BaseAuth::pollServer() const
 
 void O0BaseAuth::setLoggingFunction( std::function<void (const QString&, LogLevel)> function)
 {
-    sLoggingFunction = function;
+    sLoggingFunction = std::move( function );
 }
 
 void O0BaseAuth::log(const QString& message, LogLevel level)

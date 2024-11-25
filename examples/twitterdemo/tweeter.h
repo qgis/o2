@@ -34,8 +34,8 @@ private slots:
     void tweetReplyDone();
 
 private:
-    O1Twitter* o1Twitter_;
-    OXTwitter* oxTwitter_;
+    O1Twitter* o1Twitter_{nullptr};
+    OXTwitter* oxTwitter_{nullptr};
 };
 
 #endif // TWEETER_H

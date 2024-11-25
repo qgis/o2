@@ -110,18 +110,18 @@ protected:
         Idle, Requesting, ReRequesting
     };
 
-    QNetworkAccessManager *manager_;
-    O2 *authenticator_;
+    QNetworkAccessManager *manager_{nullptr};
+    O2 *authenticator_{nullptr};
     QNetworkRequest request_;
     QByteArray data_;
-    QHttpMultiPart* multipartData_;
+    QHttpMultiPart* multipartData_{nullptr};
     QNetworkReply *reply_{nullptr};
     Status status_{Idle};
-    int id_;
-    QNetworkAccessManager::Operation operation_;
+    int id_{1};
+    QNetworkAccessManager::Operation operation_{QNetworkAccessManager::GetOperation};
     QUrl url_;
     O2ReplyList timedReplies_;
-    QNetworkReply::NetworkError error_;
+    QNetworkReply::NetworkError error_{QNetworkReply::NoError};
     bool addAccessTokenInQuery_{true};
     QString accessTokenInAuthenticationHTTPHeaderFormat_;
     bool rawData_{false};

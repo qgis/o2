@@ -317,7 +317,7 @@ void O2Requestor::onUploadProgress(qint64 uploaded, qint64 total) {
 }
 
 int O2Requestor::setup(const QNetworkRequest &request, QNetworkAccessManager::Operation operation, const QByteArray &verb) {
-    static int currentId;
+    static int currentId = 1;
 
     if (status_ != Idle) {
         O0BaseAuth::log( QStringLiteral("O2Requestor::setup: Another request pending"), O0BaseAuth::LogLevel::Warning );
