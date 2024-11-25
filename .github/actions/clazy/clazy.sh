@@ -135,6 +135,9 @@ echo "$output" | grep -E "$pattern" | while IFS= read -r line; do
     fi
 done
 
+warnings_count=$(<"$warnings_file")
+errors_count=$(<"$errors_file")
+
 echo "Debug: warnings count is $warnings_count" >> /tmp/clazy-debug.log
 echo "Debug: errors count is $errors_count" >> /tmp/clazy-debug.log
 echo "Debug: GITHUB_OUTPUT is $GITHUB_OUTPUT" >> /tmp/clazy-debug.log
