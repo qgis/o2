@@ -162,7 +162,10 @@ QString O2::grantType()
 
 void O2::setGrantType(const QString &value)
 {
+    if (grantType_ == value)
+        return;
     grantType_ = value;
+    Q_EMIT grantTypeChanged(grantType_);
 }
 
 void O2::link() {
@@ -697,7 +700,11 @@ QString O2::localhostPolicy() const {
 }
 
 void O2::setLocalhostPolicy(const QString &value) {
+    if (localhostPolicy_ == value)
+        return;
+
     localhostPolicy_ = value;
+    Q_EMIT localHostPolicyChanged(localhostPolicy_);
 }
 
 QString O2::apiKey() {
@@ -705,7 +712,11 @@ QString O2::apiKey() {
 }
 
 void O2::setApiKey(const QString &value) {
+    if (apiKey_ == value)
+        return;
+
     apiKey_ = value;
+    Q_EMIT apiKeyChanged(apiKey_);
 }
 
 bool O2::ignoreSslErrors() {
@@ -714,4 +725,5 @@ bool O2::ignoreSslErrors() {
 
 void O2::setIgnoreSslErrors(bool ignoreSslErrors) {
     timedReplies_.setIgnoreSslErrors(ignoreSslErrors);
+    Q_EMIT ignoreSslErrorsChanged(ignoreSslErrors);
 }
