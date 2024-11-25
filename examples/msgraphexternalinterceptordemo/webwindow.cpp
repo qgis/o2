@@ -66,7 +66,10 @@ void WebWindow::closeEvent(QCloseEvent *)
 void WebWindow::onCallbackCatched(const QString &inURLString)
 {
 	mCatchedOAuthURL = inURLString;
+// Suppress warning: Potential leak of memory in qtimer.h [clang-analyzer-cplusplus.NewDeleteLeaks]
+#ifndef __clang_analyzer__
     QTimer::singleShot(100, this, &WebWindow::onCallbackCatchedSafe);
+#endif
 }
 
 void WebWindow::onCallbackCatchedSafe()

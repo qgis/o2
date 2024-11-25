@@ -105,8 +105,10 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setOrganizationDomain("mysoft.com");
     QCoreApplication::setApplicationName("tweeter");
     Helper helper;
+// Suppress warning: Potential leak of memory in qtimer.h [clang-analyzer-cplusplus.NewDeleteLeaks]
+#ifndef __clang_analyzer__
     QTimer::singleShot(0, &helper, &Helper::processArgs);
-
+#endif
     return a.exec();
 }
 

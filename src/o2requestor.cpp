@@ -269,9 +269,12 @@ void O2Requestor::onRequestFinished() {
     if (reply_ != qobject_cast<QNetworkReply *>(sender())) {
         return;
     }
+// Suppress warning: Potential leak of memory in qtimer.h [clang-analyzer-cplusplus.NewDeleteLeaks]
+#ifndef __clang_analyzer__
     if (reply_->error() == QNetworkReply::NoError) {
         QTimer::singleShot(10, this, &O2Requestor::finish);
     }
+#endif
 }
 
 void O2Requestor::onRequestError(QNetworkReply::NetworkError error) {
@@ -292,7 +295,10 @@ void O2Requestor::onRequestError(QNetworkReply::NetworkError error) {
         O0BaseAuth::log( QStringLiteral( "O2Requestor::onRequestError: Invoking remote refresh failed" ), O0BaseAuth::LogLevel::Critical );
     }
     error_ = error;
+// Suppress warning: Potential leak of memory in qtimer.h [clang-analyzer-cplusplus.NewDeleteLeaks]
+#ifndef __clang_analyzer__
     QTimer::singleShot(10, this, &O2Requestor::finish);
+#endif
 }
 
 void O2Requestor::onUploadProgress(qint64 uploaded, qint64 total) {

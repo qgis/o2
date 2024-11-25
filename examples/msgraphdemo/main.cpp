@@ -59,7 +59,10 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setOrganizationName("O2");
     QCoreApplication::setApplicationName("Msgraph Example");
     Helper helper;
+// Suppress warning: Potential leak of memory in qtimer.h [clang-analyzer-cplusplus.NewDeleteLeaks]
+#ifndef __clang_analyzer__
     QTimer::singleShot(0, &helper, &Helper::run);
+#endif
     return a.exec();
 }
 
