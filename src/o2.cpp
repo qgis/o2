@@ -192,7 +192,7 @@ void O2::link() {
     setRefreshToken(QString());
     setExpires(0);
 
-    if (grantFlow_ == GrantFlowAuthorizationCode || grantFlow_ == GrantFlowImplicit) {
+    if (grantFlow_ == GrantFlowAuthorizationCode || grantFlow_ == GrantFlowImplicit || grantFlow_ == GrantFlowPkce) {
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
         const thread_local QRegularExpression rx("([^a-zA-Z0-9]|[-])");
@@ -232,6 +232,17 @@ void O2::link() {
         parameters.append(qMakePair(QString(O2_OAUTH2_STATE), uniqueState));
         if ( !apiKey_.isEmpty() )
             parameters.append(qMakePair(QString(O2_OAUTH2_API_KEY), apiKey_));
+
+        if ( grantFlow_ == GrantFlowPkce )
+        {
+            pkceCodeVerifier_ = ( QUuid::createUuid().toString( QUuid::WithoutBraces ) +
+                                 QUuid::createUuid().toString( QUuid::WithoutBraces ) ).toLatin1();
+            pkceCodeChallenge_ = QCryptographicHash::hash( pkceCodeVerifier_, QCryptographicHash::Sha256 ).toBase64(
+                QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals );
+            parameters.append( qMakePair( QString( O2_OAUTH2_PKCE_CODE_CHALLENGE_PARAM ), pkceCodeChallenge_ ) );
+            parameters.append( qMakePair( QString( O2_OAUTH2_PKCE_CODE_CHALLENGE_METHOD_PARAM ), QString( O2_OAUTH2_PKCE_CODE_CHALLENGE_METHOD_S256 ) ) );
+        }
+
         const QVariantMap extraParams = extraRequestParams();
         for (auto it = extraParams.constBegin(); it != extraParams.constEnd(); ++it) {
             parameters.append(qMakePair(it.key(), it.value().toString()));
@@ -320,7 +331,7 @@ void O2::onVerificationReceived(const QMap<QString, QString> response) {
         return;
     }
 
-    if (grantFlow_ == GrantFlowAuthorizationCode) {
+    if (grantFlow_ == GrantFlowAuthorizationCode || grantFlow_ == GrantFlowPkce ) {
         // Save access code
         setCode(response.value(QString(O2_OAUTH2_GRANT_TYPE_CODE)));
 
@@ -334,9 +345,17 @@ void O2::onVerificationReceived(const QMap<QString, QString> response) {
         QMap<QString, QString> parameters;
         parameters.insert(O2_OAUTH2_GRANT_TYPE_CODE, code());
         parameters.insert(O2_OAUTH2_CLIENT_ID, clientId_);
-        parameters.insert(O2_OAUTH2_CLIENT_SECRET, clientSecret_);
+        //No client secret with PKCE
+        if ( grantFlow_ != GrantFlowPkce )
+        {
+            parameters.insert(O2_OAUTH2_CLIENT_SECRET, clientSecret_);
+        }
         parameters.insert(O2_OAUTH2_REDIRECT_URI, redirectUri_);
         parameters.insert(O2_OAUTH2_GRANT_TYPE, O2_AUTHORIZATION_CODE);
+        if ( grantFlow() == GrantFlowPkce )
+        {
+            parameters.insert( O2_OAUTH2_PKCE_CODE_VERIFIER_PARAM, pkceCodeVerifier_ );
+        }
         QByteArray data = buildRequestBody(parameters);
 
         log( QStringLiteral("O2::onVerificationReceived: Exchange access code data:\n%1").arg(QString(data)) );
