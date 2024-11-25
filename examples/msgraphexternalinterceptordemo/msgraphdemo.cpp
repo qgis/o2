@@ -93,7 +93,7 @@ void MsgraphDemo::onAuthWindowCallbackCalled(const QString &inURLString)
 
         QMultiMap<QString, QString> queryParams;
         QPair<QString, QString> tokenPair;
-        for (const QPair<QString, QString>& tokenPair: tokens) {
+        for (const QPair<QString, QString>& tokenPair: qAsConst(tokens)) {
             // FIXME: We are decoding key and value again. This helps with Google OAuth, but is it mandated by the standard?
             QString key = QUrl::fromPercentEncoding(QByteArray().append(tokenPair.first.trimmed().toLatin1()));
             QString value = QUrl::fromPercentEncoding(QByteArray().append(tokenPair.second.trimmed().toLatin1()));
