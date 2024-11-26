@@ -382,10 +382,10 @@ void O2::onVerificationReceived(const QMap<QString, QString> response) {
           setToken(response.value(O2_OAUTH2_ACCESS_TOKEN));
           if (response.contains(O2_OAUTH2_EXPIRES_IN)) {
             bool ok = false;
-            int expiresIn = response.value(O2_OAUTH2_EXPIRES_IN).toInt(&ok);
+            const int expiresIn = response.value(O2_OAUTH2_EXPIRES_IN).toInt(&ok);
             if (ok) {
                 log( QStringLiteral("O2::onVerificationReceived: Token expires in %1 seconds" ).arg( expiresIn ) );
-                setExpires((int)(QDateTime::currentMSecsSinceEpoch() / 1000 + expiresIn));
+                setExpires(QDateTime::currentMSecsSinceEpoch() / 1000 + static_cast< qint64 >( expiresIn ));
             }
           }
           if (response.contains(O2_OAUTH2_REFRESH_TOKEN)) {
@@ -443,10 +443,10 @@ void O2::onTokenReplyFinished() {
             log( QStringLiteral("O2::onTokenReplyFinished: Access token returned") );
             setToken(tokens.take(O2_OAUTH2_ACCESS_TOKEN).toString());
             bool ok = false;
-            int expiresIn = tokens.take(O2_OAUTH2_EXPIRES_IN).toInt(&ok);
+            const int expiresIn = tokens.take(O2_OAUTH2_EXPIRES_IN).toInt(&ok);
             if (ok) {
                 log( QStringLiteral("O2::onTokenReplyFinished: Token expires in %1 seconds").arg( expiresIn ) );
-                setExpires((int)(QDateTime::currentMSecsSinceEpoch() / 1000 + expiresIn));
+                setExpires(QDateTime::currentMSecsSinceEpoch() / 1000 + static_cast< qint64 >( expiresIn ));
             }
             setRefreshToken(tokens.take(O2_OAUTH2_REFRESH_TOKEN).toString());
             setExtraTokens(tokens);
@@ -491,12 +491,12 @@ QByteArray O2::buildRequestBody(const QMap<QString, QString> &parameters) {
     return body;
 }
 
-int O2::expires() {
+qint64 O2::expires() {
     QString key = QString(O2_KEY_EXPIRES).arg(clientId_);
-    return store_->value(key).toInt();
+    return store_->value(key).toLongLong();
 }
 
-void O2::setExpires(int v) {
+void O2::setExpires(qint64 v) {
     QString key = QString(O2_KEY_EXPIRES).arg(clientId_);
     store_->setValue(key, QString::number(v));
 }
@@ -509,7 +509,7 @@ QNetworkAccessManager *O2::getManager()
 void O2::startPollServer(const QVariantMap &params)
 {
     bool ok = false;
-    int expiresIn = params[O2_OAUTH2_EXPIRES_IN].toInt(&ok);
+    const int expiresIn = params[O2_OAUTH2_EXPIRES_IN].toInt(&ok);
     if (!ok) {
         log( QStringLiteral("O2::startPollServer: No expired_in parameter"), O0BaseAuth::LogLevel::Warning );
         Q_EMIT linkingFailed();
@@ -608,7 +608,7 @@ void O2::onRefreshFinished() {
         else
         {
           setToken(tokens.value(O2_OAUTH2_ACCESS_TOKEN).toString());
-          setExpires((int)(QDateTime::currentMSecsSinceEpoch() / 1000 + tokens.value(O2_OAUTH2_EXPIRES_IN).toInt()));
+          setExpires(QDateTime::currentMSecsSinceEpoch() / 1000 + static_cast<qint64>(tokens.value(O2_OAUTH2_EXPIRES_IN).toInt()));
           QString refreshToken = tokens.value(O2_OAUTH2_REFRESH_TOKEN).toString();
           if(!refreshToken.isEmpty()) {
               setRefreshToken(refreshToken);

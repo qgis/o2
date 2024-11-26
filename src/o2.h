@@ -103,7 +103,7 @@ public:
     QString refreshToken();
 
     /// Get token expiration time (seconds from Epoch).
-    int expires();
+    qint64 expires();
 
 public Q_SLOTS:
     /// Authenticate.
@@ -167,7 +167,7 @@ protected:
     void setRefreshToken(const QString &v);
 
     /// Set token expiration time.
-    void setExpires(int v);
+    void setExpires(qint64 v);
 
     /// Returns the QNetworkAccessManager instance to use for network access
     virtual QNetworkAccessManager *getManager();

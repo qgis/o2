@@ -112,6 +112,72 @@ private slots:
         QVERIFY(o2->expires() > QDateTime::currentSecsSinceEpoch());
     }
 
+    void testAuthorizationCodeFlowPost2038() {
+        QSignalSpy openBrowserSpy(o2, &O2::openBrowser);
+        QSignalSpy closeBrowserSpy(o2, &O2::closeBrowser);
+        QSignalSpy linkingSucceededSpy(o2, &O2::linkingSucceeded);
+        QSignalSpy linkingFailedSpy(o2, &O2::linkingFailed);
+
+        o2->setGrantFlow(O2::GrantFlowAuthorizationCode);
+
+        // Start auth flow
+        o2->link();
+
+        // Verify browser signal
+        QCOMPARE(openBrowserSpy.count(), 1);
+        QUrl authUrl = openBrowserSpy.at(0).at(0).toUrl();
+        QVERIFY(authUrl.toString().contains("response_type=code"));
+        QVERIFY(authUrl.toString().contains("client_id=test_client"));
+        QVERIFY(authUrl.toString().contains("scope=test_scope"));
+
+        // Extract state parameter for verification
+        QString state = QUrlQuery(authUrl).queryItemValue("state");
+        QVERIFY(!state.isEmpty());
+
+        // Prepare mock token response with far-future expiry
+        // Using 20 years (630,720,000 seconds) for testing post-2038 dates
+        QByteArray tokenResponse = R"({
+        "access_token": "test_access_token_2038",
+        "refresh_token": "test_refresh_token_2038",
+        "expires_in": 630720000,
+        "token_type": "Bearer"
+    })";
+        manager->setResponse(tokenResponse);
+
+        // Simulate callback with auth code
+        QMap<QString, QString> response;
+        response["code"] = "test_auth_code_2038";
+        response["state"] = state;
+        o2->onVerificationReceived(response);
+
+        // Verify token request
+        QTRY_COMPARE(manager->lastOperation, QNetworkAccessManager::PostOperation);
+        QCOMPARE(manager->lastRequest.url().toString(), QString("http://localhost/token"));
+        QVERIFY(manager->lastData.contains("code=test_auth_code_2038"));
+        QVERIFY(manager->lastData.contains("grant_type=authorization_code"));
+        QVERIFY(manager->lastData.contains("client_id=test_client"));
+        QVERIFY(manager->lastData.contains("client_secret=test_secret"));
+
+        // Verify success
+        QTRY_COMPARE(linkingSucceededSpy.count(), 1);
+        QCOMPARE(linkingFailedSpy.count(), 0);
+        QCOMPARE(closeBrowserSpy.count(), 1);
+        QVERIFY(o2->linked());
+        QCOMPARE(o2->token(), QString("test_access_token_2038"));
+        QCOMPARE(o2->refreshToken(), QString("test_refresh_token_2038"));
+
+        // Post-2038 specific verifications
+        qint64 currentTime = QDateTime::currentSecsSinceEpoch();
+        qint64 expectedExpiry = currentTime + 630720000;
+
+        // Verify expiry is handled correctly
+        QCOMPARE(o2->expires(), expectedExpiry);
+        QVERIFY(o2->expires() > 2147483647); // Unix timestamp for 2038-01-19
+
+        // Verify expiry calculation is using 64-bit arithmetic
+        QVERIFY(expectedExpiry > INT_MAX);
+    }
+
     void testImplicitFlow() {
         QSignalSpy openBrowserSpy(o2, &O2::openBrowser);
         QSignalSpy linkingSucceededSpy(o2, &O2::linkingSucceeded);
@@ -145,6 +211,54 @@ private slots:
         QVERIFY(o2->linked());
         QCOMPARE(o2->token(), QString("test_implicit_token"));
         QVERIFY(o2->expires() > QDateTime::currentSecsSinceEpoch());
+    }
+
+    void testImplicitFlowPost2038Expiry() {
+        QSignalSpy openBrowserSpy(o2, &O2::openBrowser);
+        QSignalSpy linkingSucceededSpy(o2, &O2::linkingSucceeded);
+        QSignalSpy linkingFailedSpy(o2, &O2::linkingFailed);
+
+        // Set up implicit flow
+        o2->setGrantFlow(O2::GrantFlowImplicit);
+
+        // Start auth flow
+        o2->link();
+
+        // Verify browser signal
+        QCOMPARE(openBrowserSpy.count(), 1);
+        QUrl authUrl = openBrowserSpy.at(0).at(0).toUrl();
+        QVERIFY(authUrl.toString().contains("response_type=token"));
+        QVERIFY(authUrl.toString().contains("client_id=test_client"));
+
+        // Extract state parameter
+        QString state = QUrlQuery(authUrl).queryItemValue("state");
+
+        // Calculate an expiry time well beyond 2038
+        // Adding a large number of seconds to simulate a far future expiry
+        // 20 years in seconds: 20 * 365 * 24 * 60 * 60 = 630,720,000
+        QString farFutureExpiry = QString::number(630720000);
+
+        // Simulate receiving token with far future expiry
+        QMap<QString, QString> response;
+        response["access_token"] = "test_post_2038_token";
+        response["expires_in"] = farFutureExpiry;
+        response["token_type"] = "Bearer";
+        response["state"] = state;
+
+        o2->onVerificationReceived(response);
+
+        // Verify success
+        QTRY_COMPARE(linkingSucceededSpy.count(), 1);
+        QCOMPARE(linkingFailedSpy.count(), 0);
+        QVERIFY(o2->linked());
+        QCOMPARE(o2->token(), QString("test_post_2038_token"));
+
+        // Verify expiry is handled correctly post-2038
+        qint64 expectedExpiry = QDateTime::currentSecsSinceEpoch() + farFutureExpiry.toLongLong();
+        QCOMPARE(o2->expires(), expectedExpiry);
+
+        // Additional post-2038 specific checks
+        QVERIFY(o2->expires() > 2147483647); // Unix timestamp for 2038-01-19
     }
 
     void testPasswordFlow() {
