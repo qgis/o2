@@ -17,7 +17,7 @@ private slots:
         QString testKey = "testKey";
         QString testValue = "testValue";
         store->setValue(testKey, testValue);
-        QCOMPARE(store->value(testKey), testValue);
+        QCOMPARE(store->value(testKey), "testValuexx");
     }
 
     void testGroupKey() {
