@@ -88,7 +88,16 @@ if (o2_WITH_OAUTH1)
     set(HAVE_OAUTH1_SUPPORT 1)
 endif()
 
+if(o2_WITH_KEYCHAIN)
+    if(o2_WITH_QT5)
+        find_package(Qt5Keychain CONFIG REQUIRED)
+    else()
+        find_package(Qt6Keychain CONFIG REQUIRED)
+    endif()
 
+    message("Found QTKeychain")
+
+endif(o2_WITH_KEYCHAIN)
 
 if(o2_WITH_TWITTER OR o2_WITH_DROPBOX OR o2_WITH_FLICKR OR o2_WITH_SMUGMUG)
   set(o2_WITH_OAUTH1 ON)

@@ -192,32 +192,18 @@ if(o2_WITH_MSGRAPH)
 endif(o2_WITH_MSGRAPH)
 
 if(o2_WITH_KEYCHAIN)
-    if (Qt5Core_DIR)
-        find_package(Qt5Keychain REQUIRED)
-    else()
-        find_package(QtKeychain REQUIRED)
-    endif()
-    if(QTKEYCHAIN_FOUND OR QT5KEYCHAIN_FOUND)
-        MESSAGE("Found QTKeychain")
-        list(APPEND LINK_TARGETS ${QTKEYCHAIN_LIBRARY})
-        include_directories(${QTKEYCHAIN_INCLUDE_DIR})
-        set( o2_SRCS
-                ${o2_SRCS}
-                o0keychainstore.cpp
-                )
-        set( o2_HDRS
-                ${o2_HDRS}
-                o0keychainstore.h
-                )
-    else()
-        MESSAGE("Qt5Keychain or QtKeychain is required")
-    endif()
-
+    list(APPEND LINK_TARGETS ${QTKEYCHAIN_LIBRARIES})
+    include_directories(SYSTEM ${QTKEYCHAIN_INCLUDE_DIRS})
+    set( o2_SRCS
+            ${o2_SRCS}
+            o0keychainstore.cpp
+            )
+    set( o2_HDRS
+            ${o2_HDRS}
+            o0keychainstore.h
+            )
 
 endif(o2_WITH_KEYCHAIN)
-
-
-
 
 if(NOT o2_WITH_QT5)
     add_definitions(${QT4_DEFINITIONS})
