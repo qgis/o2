@@ -16,6 +16,7 @@ mkdir -p build
 cd build
 cmake -GNinja \
     -Do2_BUILD_EXAMPLES:BOOL=ON \
+    -Do2_WITH_TESTS=ON \
     -Do2_SHOW_TRACE:BOOL=ON \
     -Do2_WITH_DROPBOX:BOOL=ON \
     -Do2_WITH_FACEBOOK:BOOL=ON \

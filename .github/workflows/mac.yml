@@ -42,3 +42,8 @@ jobs:
             CCACHE_DIR: ${{ github.workspace }}/.ccache
             TRAVIS_OS_NAME: osx
             BUILD_NAME: osx
+
+      - name: Run Tests
+        run: |
+          cd build
+          ctest --output-on-failure --no-compress-output -T Test
