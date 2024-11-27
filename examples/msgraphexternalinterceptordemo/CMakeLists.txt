@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.5.0)
 
 project( msgraphexternalinterceptorexample )
 
@@ -14,6 +14,7 @@ if(o2_WITH_QT5)
     find_package(Qt5Script  REQUIRED)
     find_package(Qt5Network REQUIRED)
     find_package(Qt5WebEngine REQUIRED)
+    find_package(Qt5WebEngineWidgets REQUIRED)
 else(o2_WITH_QT5)
     set(QT_USE_QTNETWORK true)
     set(QT_USE_QTSCRIPT true)
@@ -40,7 +41,7 @@ endif(NOT o2_WITH_QT5)
 add_executable( msgraphexternalinterceptorexample ${msgraph_SRCS} )
 
 if(o2_WITH_QT5)
-    qt5_use_modules( msgraphexternalinterceptorexample Core Widgets Network WebEngineWidgets )
+    target_link_libraries( msgraphexternalinterceptorexample Qt5::Core Qt5::Widgets Qt5::Network Qt5::WebEngine Qt5::WebEngineWidgets )
     target_link_libraries( msgraphexternalinterceptorexample o2 )
 else(o2_WITH_QT5)
     target_link_libraries( msgraphexternalinterceptorexample ${QT_LIBRARIES} o2 )

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.5.0)
 
 project( twitterexample )
 
@@ -36,7 +36,7 @@ endif(NOT o2_WITH_QT5)
 add_executable( twitterexample ${fb_SRCS} )
 
 if(o2_WITH_QT5)
-    qt5_use_modules( twitterexample Core Widgets Network )
+    target_link_libraries( twitterexample Qt5::Core Qt5::Widgets Qt5::Network )
     target_link_libraries( twitterexample o2 )
 else(o2_WITH_QT5)
     target_link_libraries( twitterexample ${QT_LIBRARIES} o2 )
