@@ -6,21 +6,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
-if(o2_WITH_QT5)
-    # Qt5 packages find their own dependencies.
-    find_package(Qt5Core    REQUIRED)
-    find_package(Qt5Widgets REQUIRED)
-    find_package(Qt5Script  REQUIRED)
-    find_package(Qt5Network REQUIRED)
-else(o2_WITH_QT5)
-    set(QT_USE_QTNETWORK true)
-    set(QT_USE_QTSCRIPT true)
-    find_package(Qt4 REQUIRED)
-endif(o2_WITH_QT5)
-
-if (NOT o2_WITH_QT5)
-    include( ${QT_USE_FILE} )
-endif(NOT o2_WITH_QT5)
+if(o2_WITH_QT6)
+    find_package(Qt6 COMPONENTS Core Widgets Network REQUIRED)
+else()
+    find_package(Qt5 COMPONENTS Core Widgets Script Network REQUIRED)
+endif()
 
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} "../../src" )
 
@@ -30,15 +20,7 @@ set(fb_SRCS
     fbdemo.h
 )
 
-if(NOT o2_WITH_QT5)
-    add_definitions(${QT4_DEFINITIONS})
-endif(NOT o2_WITH_QT5)
-
 add_executable( fbexample ${fb_SRCS} )
 
-if(o2_WITH_QT5)
-    target_link_libraries( fbexample Qt5::Core Qt5::Widgets Qt5::Network )
-    target_link_libraries( fbexample o2 )
-else(o2_WITH_QT5)
-    target_link_libraries( fbexample ${QT_LIBRARIES} o2 )
-endif(o2_WITH_QT5)
+target_link_libraries( fbexample Qt::Core Qt::Widgets Qt::Network )
+target_link_libraries( fbexample o2 )

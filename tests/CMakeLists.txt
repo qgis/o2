@@ -7,10 +7,10 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 # Find Qt packages needed for testing
-if(o2_WITH_QT5)
-    find_package(Qt5 5.15 COMPONENTS Core Network Test REQUIRED)
-else()
+if(o2_WITH_QT6)
     find_package(Qt6 COMPONENTS Core Network Test REQUIRED)
+else()
+    find_package(Qt5 5.15 COMPONENTS Core Network Test REQUIRED)
 endif()
 
 # Source files from src directory

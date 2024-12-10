@@ -18,7 +18,7 @@ set(API_VERSION ${VER_MAJOR}.${VER_MINOR}.${API_VER_PATCH})
 
 project(o2 VERSION ${PROJECT_VERSION})
 
-option(o2_WITH_QT5 "Use Qt5" ON)
+option(o2_WITH_QT6 "Use Qt6" ON)
 
 set(o2_LIB_SUFFIX "" CACHE STRING "Suffix for install 'lib' directory, e.g. 64 for lib64")
 
@@ -89,14 +89,11 @@ if (o2_WITH_OAUTH1)
 endif()
 
 if(o2_WITH_KEYCHAIN)
-    if(o2_WITH_QT5)
-        find_package(Qt5Keychain CONFIG REQUIRED)
-    else()
+    if(o2_WITH_QT6)
         find_package(Qt6Keychain CONFIG REQUIRED)
+    else()
+        find_package(Qt5Keychain CONFIG REQUIRED)
     endif()
-
-    message("Found QTKeychain")
-
 endif(o2_WITH_KEYCHAIN)
 
 if(o2_WITH_TWITTER OR o2_WITH_DROPBOX OR o2_WITH_FLICKR OR o2_WITH_SMUGMUG)

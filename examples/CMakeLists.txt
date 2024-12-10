@@ -22,5 +22,7 @@ endif(o2_WITH_VIMEO)
 
 if (o2_WITH_MSGRAPH)
     add_subdirectory(msgraphdemo)
-    add_subdirectory(msgraphexternalinterceptordemo)
+    if (NOT o2_WITH_QT6) # Not yet completely updated to Qt6 compatibility, should not be too hard to do
+        add_subdirectory(msgraphexternalinterceptordemo)
+    endif (NOT o2_WITH_QT6)
 endif(o2_WITH_MSGRAPH)
