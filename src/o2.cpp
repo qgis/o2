@@ -596,7 +596,8 @@ void O2::onRefreshFinished() {
         else
         {
           setToken(tokens.value(O2_OAUTH2_ACCESS_TOKEN).toString());
-          setExpires(QDateTime::currentMSecsSinceEpoch() / 1000 + static_cast<qint64>(tokens.value(O2_OAUTH2_EXPIRES_IN).toInt()));
+          const int expiresIn = tokens.value(O2_OAUTH2_EXPIRES_IN).toInt();
+          setExpires(QDateTime::currentMSecsSinceEpoch() / 1000 + expiresIn);
           QString refreshToken = tokens.value(O2_OAUTH2_REFRESH_TOKEN).toString();
           if(!refreshToken.isEmpty()) {
               setRefreshToken(refreshToken);
@@ -608,7 +609,7 @@ void O2::onRefreshFinished() {
           setLinked(true);
           Q_EMIT linkingSucceeded();
           Q_EMIT refreshFinished(QNetworkReply::NoError);
-          log( QStringLiteral(" New token expires in %1 seconds").arg( expires() ) );
+          log( QStringLiteral(" New token expires in %1 seconds").arg( expiresIn ) );
         }
     } else {
         log( QStringLiteral( "O2::onRefreshFinished: Error %1 %2" ).arg( (int)refreshReply->error() ).arg( refreshReply->errorString() ) );
