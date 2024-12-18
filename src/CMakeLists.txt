@@ -54,18 +54,6 @@ if(o2_WITH_OAUTH1)
     )
 endif(o2_WITH_OAUTH1)
 
-if(o2_WITH_TWITTER)
-    set( o2_SRCS
-        ${o2_SRCS}
-        oxtwitter.cpp
-    )
-    set( o2_HDRS
-        ${o2_HDRS}
-        o1twitter.h
-        oxtwitter.h
-    )
-endif(o2_WITH_TWITTER)
-
 if(o2_WITH_DROPBOX)
     set( o2_HDRS
         ${o2_HDRS}

@@ -41,7 +41,6 @@ jobs:
             -Do2_WITH_SMUGMUG:BOOL=ON \
             -Do2_WITH_SPOTIFY:BOOL=ON \
             -Do2_WITH_SURVEYMONKEY:BOOL=ON \
-            -Do2_WITH_TWITTER:BOOL=ON \
             -Do2_WITH_UBER:BOOL=ON \
             -Do2_WITH_VIMEO:BOOL=ON \
       - name: Download Coverity Build Tool
