@@ -597,7 +597,7 @@ void O2::onRefreshFinished() {
         {
           setToken(tokens.value(O2_OAUTH2_ACCESS_TOKEN).toString());
           const int expiresIn = tokens.value(O2_OAUTH2_EXPIRES_IN).toInt();
-          setExpires(QDateTime::currentMSecsSinceEpoch() / 1000 + expiresIn);
+          setExpires(QDateTime::currentMSecsSinceEpoch() / 1000 + static_cast<qint64>(expiresIn));
           QString refreshToken = tokens.value(O2_OAUTH2_REFRESH_TOKEN).toString();
           if(!refreshToken.isEmpty()) {
               setRefreshToken(refreshToken);
