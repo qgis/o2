@@ -14,7 +14,7 @@ public:
         RoleText = Qt::UserRole + 1,
     };
 
-    TweetModel(QObject *parent = 0);
+    TweetModel(QObject *parent = nullptr);
 
     /// Clear all tweets
     void clearTweets();

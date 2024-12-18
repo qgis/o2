@@ -23,7 +23,7 @@ public:
     O1Twitter *authenticator() const;
     void setAuthenticator(O1Twitter *v) ;
 
-    explicit TwitterApi(QObject *parent = 0);
+    explicit TwitterApi(QObject *parent = nullptr);
     virtual ~TwitterApi();
 
 public slots:

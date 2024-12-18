@@ -11,7 +11,7 @@ class FBDemo : public QObject
     Q_OBJECT
 
 public:
-    explicit FBDemo(QObject *parent = 0);
+    explicit FBDemo(QObject *parent = nullptr);
 
 signals:
     void extraTokensReady(const QVariantMap &extraTokens);
