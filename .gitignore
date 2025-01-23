@@ -2,3 +2,10 @@
 _build/
 *.DS_Store
 o2.pro.user
+
+# Intermediates
+.qmake.stash
+Makefile
+*.o
+moc_*
+libo2.so*
