@@ -8,4 +8,5 @@ o2.pro.user
 Makefile
 *.o
 moc_*
-libo2.so*
+# Include linux and Mac libs
+libo2.*
