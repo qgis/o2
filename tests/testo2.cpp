@@ -298,6 +298,39 @@ private slots:
         QCOMPARE(o2->refreshToken(), QString("password_refresh"));
     }
 
+    void testClientCredentialsFlow() {
+        QSignalSpy linkingSucceededSpy(o2, &O2::linkingSucceeded);
+        QSignalSpy linkingFailedSpy(o2, &O2::linkingFailed);
+
+        o2->setGrantFlow(O2::GrantFlowClientCredentials);
+
+        // Prepare mock token response
+        QByteArray tokenResponse = R"({
+            "access_token": "client_credentials_token",
+            "refresh_token": "client_credentials_refresh",
+            "expires_in": 3600,
+            "token_type": "Bearer"
+        })";
+        manager->setResponse(tokenResponse);
+
+        // Start authentication
+        o2->link();
+
+        // Verify token request
+        QTRY_COMPARE(manager->lastOperation, QNetworkAccessManager::PostOperation);
+        QCOMPARE(manager->lastRequest.url().toString(), QString("http://localhost/token"));
+        QVERIFY(manager->lastData.contains("grant_type=client_credentials"));
+        QVERIFY(manager->lastData.contains("client_id=test_client"));
+        QVERIFY(manager->lastData.contains("client_secret=test_secret"));
+
+        // Verify success
+        QTRY_COMPARE(linkingSucceededSpy.count(), 1);
+        QCOMPARE(linkingFailedSpy.count(), 0);
+        QVERIFY(o2->linked());
+        QCOMPARE(o2->token(), QString("client_credentials_token"));
+        QCOMPARE(o2->refreshToken(), QString("client_credentials_refresh"));
+    }
+
     void testRefreshToken() {
         QSignalSpy refreshFinishedSpy(o2, &O2::refreshFinished);
 
