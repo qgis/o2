@@ -25,7 +25,7 @@ jobs:
         run: |
           cmake . \
             -DCMAKE_BUILD_TYPE=Debug \
-            -DBUILD_TESTING=OFF \
+            -Do2_WITH_TESTS:BOOL=OFF \
             -Do2_BUILD_EXAMPLES:BOOL=ON \
             -Do2_SHOW_TRACE:BOOL=ON \
             -Do2_WITH_DROPBOX:BOOL=ON \
