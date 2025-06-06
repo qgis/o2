@@ -27,7 +27,7 @@ cppcheck --inline-suppr \
          -DQ_ENUMS = \
          -DQ_ENUM = \
          -DQ_DECLARE_OPERATORS_FOR_FLAGS = \
-         -DQ_SLOTS = \
+         -Dslots = \
          -Dforeach = \
          -j $(nproc) \
          ${SCRIPT_DIR}/../src \
