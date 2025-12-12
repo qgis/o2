@@ -200,6 +200,9 @@ void O2::link() {
             // Start listening to authentication replies
             if (!replyServer()->isListening()) {
                 if (replyServer()->listen(QHostAddress::Any, localPort_)) {
+                    if (localPort() == 0) {
+                        setLocalPort(replyServer()->serverPort());
+                    }
                     log( QStringLiteral( "O2::link: Reply server listening on port %1" ).arg( localPort() ) );
                 } else {
                     log( QStringLiteral("O2::link: Reply server failed to start listening on port %1").arg( localPort() ), O0BaseAuth::LogLevel::Warning );
