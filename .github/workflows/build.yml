@@ -35,6 +35,7 @@ jobs:
                 qtscript5-dev \
                 qtwebengine5-dev"
           fi
+          sudo apt-get update
           sudo apt-get install \
             cmake \
             ninja-build \
