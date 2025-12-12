@@ -248,7 +248,13 @@ void O1::link() {
     if (!useExternalWebInterceptor_) {
         // Start reply server
         if (!replyServer()->isListening())
+        {
             replyServer()->listen(QHostAddress::Any, localPort());
+            if (localPort() == 0)
+            {
+                setLocalPort(replyServer()->serverPort());
+            }
+        }
     }
 
     // Get any query parameters for the request
