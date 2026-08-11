@@ -1,5 +1,5 @@
 *CMakeLists.txt.user
-_build/
+*build/
 *.DS_Store
 o2.pro.user
 

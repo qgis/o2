@@ -480,6 +480,32 @@ private slots:
         QCOMPARE(extraTokens["extra_param2"].toString(), QString("value2"));
     }
 
+    void testEmptyClientSecretOnRefresh() {
+        QSignalSpy refreshFinishedSpy(o2, &O2::refreshFinished);
+
+        // Setup initial state
+        o2->setLinked(true);
+        o2->setToken("old_token");
+        o2->setRefreshToken("test_refresh_token");
+        o2->setRefreshTokenUrl("http://localhost/refresh");
+        o2->setClientSecret(""); // Clear Client Secret
+
+        // Prepare mock refresh response
+        QByteArray refreshResponse = R"({
+            "access_token": "new_access_token",
+            "refresh_token": "new_refresh_token",
+            "expires_in": 3600
+        })";
+        manager->setResponse(refreshResponse);
+
+        // Trigger refresh
+        o2->refresh();
+
+        // // Verify that no client_secret is sent in the request
+        QTRY_COMPARE(manager->lastOperation, QNetworkAccessManager::PostOperation);
+        QVERIFY(!manager->lastData.contains("client_secret="));
+    }
+
 private:
     MockManager* manager;
     MockStore* store;
